@@ -78,8 +78,9 @@ export const login = async (req, res) => {
         console.log("error in login", err)
     }
 }
-export const googleReg = async (req, res) => {
+export const googleLogin = async (req, res) => {
     console.log(req.body);
+    
     
     try {
       
@@ -87,7 +88,61 @@ export const googleReg = async (req, res) => {
 
 
     // return response.data.email;
-    console.log("email=====>", response )
+    
+    const user=response?.data;
+    const {email,given_name,family_name,picture}=user;
+    
+      registeringUser.findOne({ email: email })
+            .then((data)=>{
+            
+            console.log("email=====>", data )
+             if (data) {
+                 
+                 res.json({ message: "Login Successfull",data:data })
+                
+            }
+            else {
+                res.json({ message: "user not registered" })
+            }
+
+        })
+  
+ }
+    catch (err) {
+       console.log("email=====>", err )
+    }
+}
+export const googleReg = async (req, res) => {
+    console.log(req.body);
+    
+    
+    try {
+      
+      const response = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`)
+
+
+    // return response.data.email;
+    console.log("email=====>", response?.data )
+    const user=response?.data;
+    const {email,given_name,family_name,picture}=user;
+     registeringUser.findOne({ email: email })
+            .then((data)=>{
+            if(data){
+                console.log(req.body)
+                res.json({ message: "Email already exist"});
+            }
+            else{
+             
+              const firstName=given_name
+              const lastName=family_name
+              const profilePic=picture
+               
+                const register = new registeringUser({ firstName,lastName, email, profilePic});
+                register.save();
+                console.log(req.body);
+                res.status(200).json({ message: "user registered", data: req.body });
+            }
+            })
   
  }
     catch (err) {
@@ -206,3 +261,12 @@ export const initiateVerification = async(req,res) => {
     );
   });
 };
+export const getAllUsers=async(req,res)=>{
+    try {
+        const data = await registeringUser.find({})
+        res.json(data);
+    }
+    catch (err) {
+        res.json({message:"Server Error"});
+    }
+}

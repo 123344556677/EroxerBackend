@@ -61,5 +61,20 @@ export const getAllChatsById=async(req,res)=>{
         res.json({message:"Server Error"});
     }
 }
+export const makeCall=async(req,res)=>{
+   const { callerId, userId } = req.body;
+    console.log(req.body);
+    try {
+     
+   
+
+  pusher.trigger(`call-${userId}`, 'new-call', { callerId });
+ 
+
+    }
+    catch (err) {
+        res.json({message:"Server Error"});
+    }
+}
 
 
