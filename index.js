@@ -4,8 +4,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import router from './routes/routes.js';
 const PORT = process.env.PORT || 5000;
-import { Server } from 'socket.io';
-import { createServer } from 'http';
+// import { Server } from 'socket.io';
+// import { createServer } from 'http';
 import Pusher from 'pusher';
 
 const URL = process.env.MONGODB_URI||'mongodb+srv://hannan:farhan@cluster0.d7qcp.mongodb.net/eroxer?retryWrites=true&w=majority';
