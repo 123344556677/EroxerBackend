@@ -5,9 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-            "start": "node index.js",
-            "dev": "nodemon index.js"
-         },
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
   "author": "hannan",
   "license": "ISC",
   "dependencies": {
@@ -24,7 +24,6 @@
     "nodemailer": "^6.9.1",
     "nodemon": "^2.0.22",
     "pusher": "^5.1.2",
-    "socket.io": "^4.6.1",
     "twilio": "^4.10.0",
     "ws": "^8.13.0"
   }
