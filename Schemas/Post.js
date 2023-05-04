@@ -6,10 +6,16 @@ const post = new mongoose.Schema({
         required:true
         
     },
+    // postPic: {
+    //     data:Buffer,
+    //     contentType:String
+
+    // },
     postPic: {
-        type: String,
+        type:String
 
     },
+
    
     postCheck: {
         type: Boolean,
