@@ -1,15 +1,15 @@
 import creatingPost from '../Schemas/Post.js';
-import multer from 'multer'
+// import multer from 'multer'
 
-const storage = multer.diskStorage({
-  destination:"posts", 
-  filename:(req,file,cb)=>{
-    cb(null,file.originalname)
-  }
+// const storage = multer.diskStorage({
+//   destination:"posts", 
+//   filename:(req,file,cb)=>{
+//     cb(null,file.originalname)
+//   }
 
     
-  })
-  const post = multer({ Storage: storage }).single("postPic")
+//   })
+//   const post = multer({ Storage: storage }).single("postPic")
 
 export const createPost = async (req, res) => {
     
