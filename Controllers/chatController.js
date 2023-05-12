@@ -17,7 +17,7 @@ export const sendMessage = async (req, res) => {
     try {
     console.log(req.body,"=========>body")
         
-    await pusher.trigger(roomId, 'message', {
+    await pusher.trigger("chat", 'message', {
         username:senderId,
         message: message
        
@@ -31,6 +31,32 @@ export const sendMessage = async (req, res) => {
              });
         messages.save();
     })
+
+
+        
+        
+    }
+    catch (err) {
+     console.log(err)
+    }
+}
+export const sendAlert = async (req, res) => {
+ 
+    const roomId=req.body.roomId;
+    const message=req.body.message;
+    const senderId=req.body.userId
+    const  name=req.body.name
+    
+    try {
+    console.log(req.body,"alert=========>body")
+        
+    await pusher.trigger(roomId, 'client-alert', {
+        username:senderId,
+        message: message,
+        name:name
+       
+    })
+    
 
 
         
@@ -62,13 +88,13 @@ export const getAllChatsById=async(req,res)=>{
     }
 }
 export const makeCall=async(req,res)=>{
-   const { callerId, userId } = req.body;
+   const { callerId, accepterId } = req.body;
     console.log(req.body);
     try {
      
    
 
-  pusher.trigger(`call-${userId}`, 'new-call', { callerId });
+  pusher.trigger(`call`, 'new-call', { callerId,accepterId });
  
 
     }

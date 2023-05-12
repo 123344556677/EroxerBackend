@@ -1,9 +1,9 @@
 import express from 'express'
 import { createAd, getAdsById, getAllAds } from '../Controllers/adController.js';
 import { register, login, updateUser, getUsersById, updatePassword, googleReg, sendMobileCode, initiateVerification, getAllUsers, googleLogin } from "../Controllers/authControllers.js";
-import { getAllChatsById, makeCall, sendMessage } from '../Controllers/chatController.js';
+import { getAllChatsById, makeCall, sendAlert, sendMessage } from '../Controllers/chatController.js';
 import {createPost, getAllPosts } from "../Controllers/postController.js";
-import { getRequestById, sendRequest } from '../Controllers/requestController.js';
+import { changeRequestStatus, getAllAcceptedUsers, getRequestById, sendRequest } from '../Controllers/requestController.js';
 const router = express.Router();
 //auth
 router.post('/reg', register);
@@ -28,10 +28,14 @@ router.get('/getAdById/:id', getAdsById);
 router.post('/sendMessage', sendMessage);
 router.post('/getAllChatsById', getAllChatsById);
 router.post('/newCall', makeCall );
+router.post('/sendAlert', sendAlert );
 
 // request
 router.post('/makeRequest', sendRequest);
 router.post('/getRequestById', getRequestById);
+router.put('/changeRequestStatus', changeRequestStatus);
+router.post('/getAllAcceptedUsers', getAllAcceptedUsers);
+
 
 
 
