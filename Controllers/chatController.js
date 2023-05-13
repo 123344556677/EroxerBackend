@@ -12,12 +12,13 @@ export const sendMessage = async (req, res) => {
  
     const roomId=req.body.roomId;
     const message=req.body.message;
-    const senderId=req.body.userId
+    const senderId=req.body.userId;
+    const timeStamp=req.body.timeStamp;
     
     try {
     console.log(req.body,"=========>body")
         
-    await pusher.trigger("chat", 'message', {
+    await pusher.trigger("chat"+senderId+roomId, 'message',{
         username:senderId,
         message: message
        
@@ -28,6 +29,7 @@ export const sendMessage = async (req, res) => {
             senderId:senderId,
             recieverId:roomId,
             message:message,
+             timeStamp:timeStamp
              });
         messages.save();
     })
