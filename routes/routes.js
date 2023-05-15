@@ -2,6 +2,7 @@ import express from 'express'
 import { createAd, getAdsById, getAllAds } from '../Controllers/adController.js';
 import { register, login, updateUser, getUsersById, updatePassword, googleReg, sendMobileCode, initiateVerification, getAllUsers, googleLogin } from "../Controllers/authControllers.js";
 import { getAllChatsById, makeCall, sendAlert, sendMessage } from '../Controllers/chatController.js';
+import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import {createPost, getAllPosts } from "../Controllers/postController.js";
 import { changeRequestStatus, getAllAcceptedUsers, getRequestById, getRequestBySenderId, sendRequest } from '../Controllers/requestController.js';
 const router = express.Router();
@@ -36,6 +37,12 @@ router.post('/getRequestById', getRequestById);
 router.put('/changeRequestStatus', changeRequestStatus);
 router.post('/getAllAcceptedUsers', getAllAcceptedUsers);
 router.post('/getRequestBySenderId', getRequestBySenderId);
+
+//list
+router.post('/addToList', addToList);
+router.post('/getListById', getAllListById);
+router.post('/deleteListDataById', deleteListDataById);
+
 
 
 
