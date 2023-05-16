@@ -54,7 +54,8 @@ const reg = new mongoose.Schema({
     },
     cnicBack:{
         type:String
-    }
+    },
+    
 
     
     
