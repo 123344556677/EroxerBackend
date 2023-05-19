@@ -5,17 +5,19 @@ import jwt from 'jsonwebtoken';
 import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 import twilio from 'twilio';
-import Nexmo from 'nexmo';
+// import { Vonage } from '@vonage/server-sdk';
+import nodemailer from 'nodemailer';
 
-const accountSid = 'AC6b62d37081717e11a7fe91972f6156cf';
-const authToken = '27ce37463b5d19cb81a087dd1ca45312';
-const verifySid = "VA64052e1e4509ad257dbc95ac5f921eeb";
-const client = twilio(accountSid, authToken);
 
-const nexmo = new Nexmo({
-  apiKey: '444b24c8',
-  apiSecret: 'ElBUyII3QG05JOZJ',
-});
+// const accountSid = 'AC6b62d37081717e11a7fe91972f6156cf';
+// const authToken = '27ce37463b5d19cb81a087dd1ca45312';
+// const verifySid = "VA64052e1e4509ad257dbc95ac5f921eeb";
+// const client = twilio(accountSid, authToken);
+
+// const vonage = new Vonage({
+//   apiKey: '444b24c8',
+//   apiSecret: 'ElBUyII3QG05JOZJ',
+// });
 
 export const register = async (req, res) => {
     try {
@@ -220,47 +222,116 @@ export const updatePassword = async (req, res) => {
     }
 
 };
-export const sendMobileCode = async (req,res) =>{
-    console.log(req.body)
-    // const to=req.body.phoneNumber
+// export const sendMobileCode = async (req,res) =>{
+//     console.log(req.body)
+//     // const to=req.body.phoneNumber
 
-client.verify.services(verifySid)
-  .verifications.create({ to: '+923351742065', channel: 'sms' })
-  .then((verification) => console.log(verification.status))
-  .then(() => {
-    const readline = require('readline').createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-    readline.question('Please enter the OTP:', (otpCode) => {
-      client.verify.services(verifySid)
-        .verificationChecks.create({ to: '+923234125359', code: otpCode })
-        .then((verification_check) => console.log(verification_check.status))
-        .then(() => readline.close());
-    });
-  });
+// client.verify.services(verifySid)
+//   .verifications.create({ to: '+923351742065', channel: 'sms' })
+//   .then((verification) => console.log(verification.status))
+//   .then(() => {
+//     const readline = require('readline').createInterface({
+//       input: process.stdin,
+//       output: process.stdout,
+//     });
+//     readline.question('Please enter the OTP:', (otpCode) => {
+//       client.verify.services(verifySid)
+//         .verificationChecks.create({ to: '+923234125359', code: otpCode })
+//         .then((verification_check) => console.log(verification_check.status))
+//         .then(() => readline.close());
+//     });
+//   });
 
+// };
+const verification = {
+  code: '',
+  expirationTime: 0,
 };
+const generateVerificationCode = () => {
+  return Math.floor(100000 + Math.random() * 900000);
+};
+
+// Store the generated code and its expiration time
+
+
 export const initiateVerification = async(req,res) => {
-  return new Promise((resolve, reject) => {
-    nexmo.verify.request(
-      {
-        number:"923234125359" ,
-        brand: 'Your App Name',
-      },
-      (err, result) => {
-        if (err) {
-          reject(err);
-          console.log(err)
-        } else {
-          const verifyRequestId = result.request_id;
-          resolve(verifyRequestId);
-           console.log(verifyRequestId)
-        }
-      }
-    );
-  });
+    try{
+        console.log(req.body)
+       verification.code = generateVerificationCode();
+       verification.expirationTime = Date.now() + 60000; // 1 minute from now
+       let transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: "hananabdul659@gmail.com",
+                        pass: "hvfvildfxggujcsi",
+                    },
+                });
+                let email = req.body.email;
+            
+
+               var mailOptions = {
+                    from: "Eroxer@hybsoltech.com",
+                    to: email,
+                    subject: "Verification code",
+                    html: "<h3>Hello!</h3>" +
+                        `<p>Your veification code is <span style="color:black;font-weight:600"> ${verification.code}</span> </p>  ` +
+                        "<a> The validity of this code is 60 seconds </a>" +
+                        "<p>If you did not request a vaeificatoin code, no further action is required.</p>" +
+                        "<p>Regards,</p>" +
+                        "<p>Eroxer</p>",
+                    
+                };
+
+                await transporter.sendMail(mailOptions)
+               .then((data)=>{
+                 res.json({message:"email sent"});
+                 console.log(data)
+               })
+               .catch((err)=>{
+                res.json({message:"email not sent"});
+                console.log(err)
+               })
+            //    console.log(mail)
+
+                // transporter.sendMail(mailOptions, function (error, info) {
+                //     if (error) {
+                //         console.log(error);
+                //         res.json({ message: "Email not Sent" });
+                //     } else {
+                //         console.log("Email sent: " + info.response);
+                //         res.json({ message: "Email Sent" });
+                //     }
+                // });
+}
+catch(err){
+    res.json({message:"Server Error"});
+}
+   
 };
+export const verifyCode= async(req,res) => {
+    try{
+        console.log(req.body.code)
+        let code=req.body.code
+        console.log(verification.code,"code---->")
+        if(code){
+ if (code==verification.code&& Date.now() <= verification.expirationTime) {
+    res.json({message:"Verification successful"});
+    console.log('Verification successful.');
+    // Handle the successful verification response here
+  } else {
+    res.json({message:"Verification invalid"});
+    console.log('Verification code is invalid or has expired.');
+    // Handle the invalid/expired verification response here
+  }
+}
+    }
+catch(err){
+    res.json({message:"Server Error"});
+}
+   
+};
+
+
 export const getAllUsers=async(req,res)=>{
     try {
         const data = await registeringUser.find({})
@@ -269,4 +340,4 @@ export const getAllUsers=async(req,res)=>{
     catch (err) {
         res.json({message:"Server Error"});
     }
-}
+};

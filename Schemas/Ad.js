@@ -33,8 +33,35 @@ const ad = new mongoose.Schema({
     },
     userData:{
         type: Object,
-    }
-    
+    },
+    adress: {
+        type: String,
+        
+    },
+    country: {
+        type: String,
+        
+    },
+    city: {
+        type: String,
+        
+    },
+    gender: {
+        type: String,
+        
+    },
+    age: {
+        type: Number,
+        
+    },
+    province: {
+        type: String,
+        
+    },
+    counter: {
+        type: Number,
+        
+    },
     
     
 })
