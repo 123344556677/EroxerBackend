@@ -213,6 +213,7 @@ export const updatePassword = async (req, res) => {
                 res.json({ message: "password updated" })
             }
             else {
+                console.log("coming here")
                 res.json({ message: "user does not exist" })
             }
         })
@@ -336,6 +337,24 @@ export const getAllUsers=async(req,res)=>{
     try {
         const data = await registeringUser.find({})
         res.json(data);
+    }
+    catch (err) {
+        res.json({message:"Server Error"});
+    }
+};
+export const deleteAccount=async(req,res)=>{
+    try {
+        consle.log(req.body)
+        registeringUser.deleteOne({ _id: req.body.userId })
+      .then(() => {
+        console.log('Account deleted successfully');
+         res.json({message:"Account deleted successfully"});
+      })
+      .catch((error) => {
+        console.error('Error deleting account:', error);
+         res.json({message:"Error deleting account"});
+      })
+      
     }
     catch (err) {
         res.json({message:"Server Error"});

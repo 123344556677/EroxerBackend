@@ -31,7 +31,10 @@ const post = new mongoose.Schema({
     },
     postProfilePic:{
          type: String,
-    }
+    },
+    userData:{
+        type: Object,
+    },
    
     
     

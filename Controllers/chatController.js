@@ -53,7 +53,7 @@ export const sendAlert = async (req, res) => {
     console.log(req.body,"alert=========>body")
         
     await pusher.trigger(roomId, 'client-alert', {
-        username:senderId,
+        senderId:senderId,
         message: message,
         name:name
        
@@ -104,5 +104,74 @@ export const makeCall=async(req,res)=>{
         res.json({message:"Server Error"});
     }
 }
+export const getLastMessage=async(req,res)=>{
+   console.log(req.body,"LAST MESSAGE---->")
+   let lastMessageArray=[]
+   
+    try {
+        req.body?.map(async(data)=>{
+
+        
+     const recieverId=data.recieverId;
+    const senderId=data.senderId
+   
+
+      await creatingChat.findOne({
+    
+  $or: [
+    { senderId: senderId, recieverId: recieverId },
+    { senderId:recieverId, recieverId:senderId }
+  ]
+}).sort({ _id: -1 }).exec()
+ .then((data)=>{
+    lastMessageArray.push(data)
+    console.log(data,"------>last message")
+ })
+ if (req.body.length === lastMessageArray.length) {
+        res.json(lastMessageArray);
+        console.log(lastMessageArray, "=========>sending last message");
+      }
+ })
+ 
+
+    }
+    catch (err) {
+        res.json({message:"Server Error"});
+    }
+}
+export const updateReadStatus=async(req,res)=>{
+   console.log(req.body,"last read status")
+   
+   
+    try {
+        
+
+        
+     const recieverId=req.body.recieverId;
+    const senderId=req.body.senderId
+   
+
+      await creatingChat.updateMany({
+    
+  $or: [
+    { senderId: senderId, recieverId: recieverId },
+    { senderId:recieverId, recieverId:senderId }
+  ],
+  readStatus:true
+
+})
+ .then((data)=>{
+  
+    console.log(data,"------>last message")
+ })
+
+ 
+
+    }
+    catch (err) {
+        res.json({message:"Server Error"});
+    }
+}
+
 
 
