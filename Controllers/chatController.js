@@ -163,6 +163,8 @@ export const updateReadStatus=async(req,res)=>{
  .then((data)=>{
   
     console.log(data,"------>last message")
+     res.json({message:"updated"});
+
  })
 
  
