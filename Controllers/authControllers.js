@@ -156,7 +156,7 @@ export const updateUser= async (req, res) => {
     try {
         console.log(req.body,"--------->user")
         const id=req.body.userId;
-      await registeringUser.findOneAndUpdate({ _id: id }, { $set:req.body }, { new: true })
+      await registeringUser.findOneAndUpdate({ _id: id },{ $push: { profileWishlist: req.body.profileWishlist }, $set: req.body }, { new: true })
       .then((data)=>{
         if (data) {
 

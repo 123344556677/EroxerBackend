@@ -58,6 +58,11 @@ const reg = new mongoose.Schema({
     onlineStatus:{
         type:Boolean
     },
+    profileWishlist:[
+        {
+            type:String
+        }
+    ],
     
 
     

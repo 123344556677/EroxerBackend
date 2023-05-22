@@ -91,7 +91,7 @@ export const changeRequestStatus = async (req, res) => {
 };
 
 export const getAllAcceptedUsers = async (req, res) => {
-  let requests = [];
+  let requests;
   let sendingUser = [];
   console.log(req.body, "calling this");
   try {
@@ -104,33 +104,55 @@ export const getAllAcceptedUsers = async (req, res) => {
         if (data) {
           console.log(data, "calling this body");
 
-          requests.push(data);
+          requests=data;
           // res.json({ message: "request Generated"});
         } else {
           res.json({ message: "server error" });
         }
       });
-    //  console.log( requests,"after initial")
-    requests?.map(async (datas, index) => {
-      if (datas[index]?.senderId === req.body.userId) {
-        const newId = new mongoose.Types.ObjectId(datas[index]?.recieverId);
-        await registeringUser.find({ _id: newId }).then((finalData) => {
-          sendingUser.push(finalData);
-          console.log(sendingUser, "SendingUser====>");
-        });
-      }
-      if (datas[index]?.recieverId === req.body.userId) {
-        const newId = new mongoose.Types.ObjectId(datas[index]?.senderId);
-        await registeringUser.find({ _id: newId }).then((finalData) => {
-          sendingUser.push(finalData);
-        });
-      }
+     console.log( requests,"after initial")
+    //  let i;
+    //  for(i=0;i<=requests.length;i++){
+    //     if (requests[i]?.senderId === req.body.userId) {
+    //     const newId = new mongoose.Types.ObjectId(requests[i]?.recieverId);
+    //     await registeringUser.findOne({ _id: newId }).then((finalData) => {
+    //       sendingUser.push(finalData);
+    //       console.log(finalData, "SendingUser====>");
+    //     });
+    //   }
+    //   if (requests[i]?.recieverId === req.body.userId) {
+    //     const newId = new mongoose.Types.ObjectId(requests[i]?.senderId);
+    //     await registeringUser.findOne({ _id: newId }).then((finalData) => {
+    //       sendingUser.push(finalData);
+    //       console.log(finalData, "coming in this SendingUser====>");
+    //     });
+    //   }
 
-      if (requests.length === sendingUser.length) {
+    //  }
+    requests?.map(async (datas, index) => {
+      // console.log(datas.recieverId, "index");
+      if (datas?.senderId === req.body.userId) {
+        const newId = new mongoose.Types.ObjectId(datas?.recieverId);
+        await registeringUser.findOne({ _id: datas?.recieverId }).then((finalData) => {
+          sendingUser.push(finalData);
+          console.log(finalData, "SendingUser====>");
+        });
+      }
+      if (datas?.recieverId === req.body.userId) {
+        const newId = new mongoose.Types.ObjectId(datas?.senderId);
+        await registeringUser.findOne({ _id: newId }).then((finalData) => {
+          sendingUser.push(finalData);
+          console.log(finalData, "coming in this SendingUser====>");
+        });
+      }
+if (requests.length === sendingUser.length) {
         res.json(sendingUser);
         console.log(sendingUser, "=========>sending accpeted User");
       }
+      
     });
+    console.log(sendingUser, "SendingUser array====>");
+    
   } catch (err) {
     res.json({ message: "Server Error" });
   }
