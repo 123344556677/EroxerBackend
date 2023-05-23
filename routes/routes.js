@@ -4,6 +4,7 @@ import { register, login, updateUser, getUsersById, updatePassword, googleReg, i
 import { getAllChatsById, getLastMessage, makeCall, sendAlert, sendMessage, updateReadStatus } from '../Controllers/chatController.js';
 import { ApplyForCreator } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
+import { CreatePoll } from '../Controllers/pollController.js';
 import {createPost, getAllPosts } from "../Controllers/postController.js";
 import { changeRequestStatus, getAllAcceptedUsers, getRequestById, getRequestBySenderId, sendRequest } from '../Controllers/requestController.js';
 const router = express.Router();
@@ -52,6 +53,9 @@ router.post('/deleteListDataById', deleteListDataById);
 
 //creator
 router.post('/applyForCreator', ApplyForCreator);
+
+//poll
+router.post('/createPoll', CreatePoll);
 
 
 

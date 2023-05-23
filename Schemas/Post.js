@@ -35,7 +35,25 @@ const post = new mongoose.Schema({
     userData:{
         type: Object,
     },
+   question: {
+        type:String
+
+    },
+
    
+    options:[
+        {
+       value: {
+            type:String
+        },
+        counter: {
+            type:Number
+        }
+    }
+    ],
+    key:{
+        type:String
+    }
     
     
     

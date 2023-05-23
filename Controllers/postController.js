@@ -45,6 +45,7 @@ export const createPost = async (req, res) => {
             if(data){
             
                 res.json({ message: "post Generated"});
+                console.log(data)
             }
             else{
                
