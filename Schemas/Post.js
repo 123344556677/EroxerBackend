@@ -53,7 +53,12 @@ const post = new mongoose.Schema({
     ],
     key:{
         type:String
-    }
+    },
+    userPollId:[
+        {
+        type:String
+        }
+    ]
     
     
     

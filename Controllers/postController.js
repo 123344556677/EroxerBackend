@@ -69,3 +69,39 @@ export const getAllPosts=async(req,res)=>{
         res.json({message:"Server Error"});
     }
 }
+export const pollCounterIncrement = async (req, res) => {
+    
+    try {
+        
+        
+        
+         console.log(req.body)
+      const { objectId, objectContainingCounterId, counterValue, userId } = req.body;
+      console.log( objectId,
+         objectContainingCounterId,
+          counterValue, 
+          userId)
+    
+   
+    await creatingPost.findOneAndUpdate(
+  { _id: objectId, 'options._id': objectContainingCounterId },
+  {
+    $inc: { 'options.$.counter': 1 },
+    $push: {  userPollId: userId }
+  },
+  { new: true }
+)
+  .then((updatedObject) => {
+    console.log(updatedObject,"--------->object data")
+  })
+  .catch((error) => {
+    // Handle the error
+  });
+        
+        
+    }
+    catch (err) {
+        console.log("error in creating post", err);
+        res.status(404).json({message:"sever error"})
+    }
+}

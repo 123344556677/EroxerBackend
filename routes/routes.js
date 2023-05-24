@@ -5,7 +5,7 @@ import { getAllChatsById, getLastMessage, makeCall, sendAlert, sendMessage, upda
 import { ApplyForCreator } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import { CreatePoll } from '../Controllers/pollController.js';
-import {createPost, getAllPosts } from "../Controllers/postController.js";
+import {createPost, getAllPosts, pollCounterIncrement } from "../Controllers/postController.js";
 import { changeRequestStatus, getAllAcceptedUsers, getRequestById, getRequestBySenderId, sendRequest } from '../Controllers/requestController.js';
 const router = express.Router();
 //auth
@@ -22,14 +22,16 @@ router.get('/getAllUsers', getAllUsers)
 router.delete('/deleteAccount',deleteAccount)
 router.put('/updateOnlienStatus',changeOnlineStatus)
 
+
 //post
 router.post('/createPost', createPost);
 router.get('/getAllPost', getAllPosts);
+router.post('/pollCounterIncrement',pollCounterIncrement)
 //ad
 router.post('/createAd', createAd);
 router.get('/getAllAd', getAllAds);
 router.get('/getAdById/:id', getAdsById);
-router.put('/counterIncrement', AdCounterIncrement);
+router.post('/counterIncrement', AdCounterIncrement);
 
 //chat
 router.post('/sendMessage', sendMessage);
@@ -56,6 +58,7 @@ router.post('/applyForCreator', ApplyForCreator);
 
 //poll
 router.post('/createPoll', CreatePoll);
+
 
 
 
