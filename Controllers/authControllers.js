@@ -344,6 +344,30 @@ catch(err){
 }
    
 };
+export const updateVerifyStatus= async(req,res) => {
+    try{
+       console.log(req.body)
+        registeringUser.findOneAndUpdate(
+        { _id: req.body.userId },
+        {$set:{ verifyStatus:true}},
+        { upsert:true, new: true } 
+        )
+      .then(() => {
+        console.log('status verified');
+         res.json({message:"verified"});
+      })
+      .catch((error) => {
+        console.error('status not updated:', error);
+         res.json({message:"status not updated"});
+      })
+}
+    
+catch(err){
+    res.json({message:"Server Error"});
+}
+   
+};
+
 
 
 export const getAllUsers=async(req,res)=>{

@@ -63,6 +63,11 @@ const reg = new mongoose.Schema({
             type:String
         }
     ],
+    verifyStatus:{
+        type:Boolean,
+        default:false
+
+    }
     
 
     
