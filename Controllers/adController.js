@@ -57,7 +57,7 @@ catch(err){
 };
 export const AdCounterIncrement = async (req, res) => {
     try{
-        console.log(req.body)
+        console.log(req.body,"-------->id")
         // const newId = new mongoose.Types.ObjectId(req.body.id);
         await creatingAd.findOneAndUpdate(
    {_id:req.body.id},

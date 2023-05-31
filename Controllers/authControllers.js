@@ -99,6 +99,7 @@ export const googleLogin = async (req, res) => {
             
             console.log("email=====>", data )
              if (data) {
+                console.log("registere-------->")
                  
                  res.json({ message: "Login Successfull",data:data })
                 
@@ -115,7 +116,7 @@ export const googleLogin = async (req, res) => {
     }
 }
 export const googleReg = async (req, res) => {
-    console.log(req.body);
+    console.log(req.body,"body------->");
     
     
     try {
@@ -326,7 +327,7 @@ export const verifyCode= async(req,res) => {
     try{
         console.log(req.body.code)
         let code=req.body.code
-        console.log(verification.code,"code---->")
+        console.log(verification.code,"code---->");
         if(code){
  if (code==verification.code&& Date.now() <= verification.expirationTime) {
     res.json({message:"Verification successful"});
@@ -403,6 +404,28 @@ export const changeOnlineStatus=async(req,res)=>{
         registeringUser.findOneAndUpdate(
         { _id: req.body.userId },
         {$set:{ onlineStatus:req.body.onlineStatus}},
+        { upsert:true, new: true } 
+        )
+      .then(() => {
+        console.log('status updated');
+         res.json({message:"updated"});
+      })
+      .catch((error) => {
+        console.error('status not updated:', error);
+         res.json({message:"status not updated"});
+      })
+      
+    }
+    catch (err) {
+        res.json({message:"Server Error"});
+    }
+};
+export const updateliveStreamStatus=async(req,res)=>{
+    try {
+        console.log(req.body)
+        registeringUser.findOneAndUpdate(
+        { _id: req.body.userId },
+        {$set:{ liveStreamStatus:req.body.status}},
         { upsert:true, new: true } 
         )
       .then(() => {

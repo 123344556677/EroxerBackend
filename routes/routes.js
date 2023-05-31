@@ -1,6 +1,6 @@
 import express from 'express'
 import { AdCounterIncrement, createAd, getAdsById, getAllAds } from '../Controllers/adController.js';
-import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus } from "../Controllers/authControllers.js";
+import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus } from "../Controllers/authControllers.js";
 import { getAllChatsById, getLastMessage, makeCall, sendAlert, sendMessage, updateReadStatus } from '../Controllers/chatController.js';
 import { ApplyForCreator } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
@@ -22,6 +22,7 @@ router.get('/getAllUsers', getAllUsers)
 router.delete('/deleteAccount',deleteAccount)
 router.put('/updateOnlienStatus',changeOnlineStatus)
 router.post('/updateVerifyStatus', updateVerifyStatus)
+router.put('/updateLiveStreamStatus', updateliveStreamStatus)
 
 
 //post
@@ -32,7 +33,7 @@ router.post('/pollCounterIncrement',pollCounterIncrement)
 router.post('/createAd', createAd);
 router.get('/getAllAd', getAllAds);
 router.get('/getAdById/:id', getAdsById);
-router.post('/counterIncrement', AdCounterIncrement);
+router.put('/counterIncrement', AdCounterIncrement);
 
 //chat
 router.post('/sendMessage', sendMessage);

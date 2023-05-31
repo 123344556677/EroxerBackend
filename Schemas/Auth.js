@@ -16,7 +16,7 @@ const reg = new mongoose.Schema({
     },
     hashPassword: {
         type: String,
-        required: true
+       
     },
    
     username: {
@@ -66,6 +66,11 @@ const reg = new mongoose.Schema({
     verifyStatus:{
         type:Boolean,
         default:false
+
+    },
+    liveStreamStatus:{
+        type:String,
+        default:"false"
 
     }
     
