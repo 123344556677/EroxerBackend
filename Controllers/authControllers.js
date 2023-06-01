@@ -442,3 +442,25 @@ export const updateliveStreamStatus=async(req,res)=>{
         res.json({message:"Server Error"});
     }
 };
+export const updateThumbPic=async(req,res)=>{
+    try {
+        console.log(req.body)
+        registeringUser.findOneAndUpdate(
+        { _id: req.body.userId },
+        {$set:{ thumbPic:req.body.thumbPic}},
+        { upsert:true, new: true } 
+        )
+      .then(() => {
+        console.log('status updated');
+         res.json({message:"updated"});
+      })
+      .catch((error) => {
+        console.error('status not updated:', error);
+         res.json({message:"status not updated"});
+      })
+      
+    }
+    catch (err) {
+        res.json({message:"Server Error"});
+    }
+};

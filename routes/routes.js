@@ -1,6 +1,6 @@
 import express from 'express'
 import { AdCounterIncrement, createAd, getAdsById, getAllAds } from '../Controllers/adController.js';
-import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus } from "../Controllers/authControllers.js";
+import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus, updateThumbPic } from "../Controllers/authControllers.js";
 import { getAllChatsById, getLastMessage, makeCall, sendAlert, sendMessage, updateReadStatus } from '../Controllers/chatController.js';
 import { ApplyForCreator } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
@@ -23,6 +23,7 @@ router.delete('/deleteAccount',deleteAccount)
 router.put('/updateOnlienStatus',changeOnlineStatus)
 router.post('/updateVerifyStatus', updateVerifyStatus)
 router.put('/updateLiveStreamStatus', updateliveStreamStatus)
+router.put('/updateThumbPic', updateThumbPic)
 
 
 //post

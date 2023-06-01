@@ -72,6 +72,10 @@ const reg = new mongoose.Schema({
         type:String,
         default:"false"
 
+    },
+    thumbPic: {
+        type: String,
+
     }
     
 
