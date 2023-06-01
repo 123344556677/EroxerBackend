@@ -166,6 +166,7 @@ export const updateUser= async (req, res) => {
       phoneNumber: req.body.phoneNumber,
       Gender:req.body.Gender,
       profileName: req.body.profileName,
+    
     },
     $push: { profileWishlist: req.body.profileWishlist },
   }, 
@@ -175,6 +176,39 @@ export const updateUser= async (req, res) => {
         if (data) {
 
             creatingPost.findOneAndUpdate({ userId: id },{ $set:{userData:data} })
+                    
+                    res.json({ message: "user updated" })
+                    console.log(data,"============>new data")
+                }
+                else {
+                    res.json({ message: "user does not exist" });
+                }
+
+      })
+
+    }
+    catch (err) {
+        res.json({ message: "Server Error" });
+        console.log(err,"--------->error")
+    }
+
+};
+export const updateUserCover= async (req, res) => {
+    try {
+        console.log(req.body,"--------->user")
+        const id=req.body.userId;
+      await registeringUser.findOneAndUpdate({ _id: id },{
+    $set: {
+      backgroundImage: req.body.backgroundImage,
+      },
+    
+  }, 
+  { new: true } 
+)
+      .then((data)=>{
+        if (data) {
+
+            
                     
                     res.json({ message: "user updated" })
                     console.log(data,"============>new data")
