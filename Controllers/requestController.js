@@ -63,7 +63,7 @@ export const getRequestById = async (req, res) => {
 };
 
 export const changeRequestStatus = async (req, res) => {
-  console.log(req.body);
+  console.log(req.body,"==========>");
   try {
     await creatingRequest.findOneAndUpdate(
       {
