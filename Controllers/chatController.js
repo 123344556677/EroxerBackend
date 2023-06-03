@@ -1,5 +1,8 @@
 import Pusher from 'pusher';
 import creatingChat from '../Schemas/chat.js';
+import creatingCall from '../Schemas/Call.js';
+import registeringUser from "../Schemas/Auth.js";
+import mongoose from "mongoose";
 
 const pusher = new Pusher({
 appId: "1592572",
@@ -48,17 +51,32 @@ export const sendAlert = async (req, res) => {
     const message=req.body.message;
     const senderId=req.body.userId
     const  name=req.body.name
+    console.log(req.body)
     
     try {
     console.log(req.body,"alert=========>body")
-        
-    await pusher.trigger(roomId, 'client-alert', {
+     await creatingCall.create({
+     roomId:roomId,
+     message:message,
+     senderId:senderId,
+     name:name
+
+     }).then((data) => {
+       if (data) { 
+        res.json({ message: "call Generated" });
+      pusher.trigger(roomId, 'client-alert', {
         senderId:senderId,
         message: message,
         name:name
        
     })
     
+  }
+  else {
+        res.json({ message: "call not Generated" });
+      }
+   });
+  
 
 
         
@@ -68,6 +86,89 @@ export const sendAlert = async (req, res) => {
      console.log(err)
     }
 }
+export const changeCallStatus = async (req, res) => {
+  console.log(req.body);
+  try {
+    await creatingCall.findOneAndUpdate(
+      {
+        $and: [
+          { roomId: req.body.recieverId },
+          { senderId: req.body.senderId },
+          { status: "pending" },
+        ],
+      },
+      req.body
+    );
+    // .then((data)=>{
+    // if(data){
+
+    //     res.json({ message: "request Generated"});
+    // }
+    // else{
+
+    //    res.json({ message: "request not Generated"});
+    // }
+    // })
+  } catch (err) {
+    res.json({ message: "Server Error" });
+  }
+};
+export const changeAllCallStatus = async (req, res) => {
+  console.log(req.body,"cll----->");
+  try {
+    await creatingCall.updateMany(
+      {roomId:req.body.userId},
+      { $set: { status: 'seen' } }
+      
+    ).then((data)=>{
+      console.log(data)
+      res.json({ message: "updated" });
+    })
+    // .then((data)=>{
+    // if(data){
+
+    //     res.json({ message: "request Generated"});
+    // }
+    // else{
+
+    //    res.json({ message: "request not Generated"});
+    // }
+    // })
+  } catch (err) {
+    res.json({ message: "Server Error" });
+  }
+};
+export const getCallById = async (req, res) => {
+  let requests;
+  let sendingUser=[];
+  console.log(req.body);
+  try {
+    await creatingCall
+      .find({ $and: [{ roomId: req.body.userId }, { status: "pending" }] })
+      .then((data) => {
+        if (data) {
+          requests=data;
+          // res.json({ message: "request Generated"});
+        } else {
+          res.json({ message: "request not Generated" });
+        }
+      });
+    //  console.log( requests,"after initial")
+    requests?.map(async (datas, index) => {
+      const newId = new mongoose.Types.ObjectId(datas?.senderId);
+
+      await registeringUser.findOne({ _id: newId }).then((finalData) => {
+        sendingUser.push(finalData);
+        console.log(sendingUser, "SendingUser====>");
+      });
+      if (requests.length === sendingUser.length) {
+        res.json(sendingUser);
+      }
+    });
+  } catch (err) {
+    res.json({ message: "Server Error" });
+  }
+};
 
 export const getAllChatsById=async(req,res)=>{
     const recieverId=req.body.recieverId;

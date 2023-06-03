@@ -21,7 +21,7 @@ app.use(bodyParser.json({ extended: true,limit: '60mb' }))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.listen(PORT);
-app.use('/', router)
+app.use('/', router);
 connection(URL);
 
 

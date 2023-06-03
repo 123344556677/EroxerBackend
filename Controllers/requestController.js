@@ -31,15 +31,15 @@ export const sendRequest = async (req, res) => {
 };
 
 export const getRequestById = async (req, res) => {
-  let requests = [];
-  let sendingUser = [];
+  let requests;
+  let sendingUser=[];
   console.log(req.body);
   try {
     await creatingRequest
       .find({ $and: [{ recieverId: req.body.userId }, { status: "pending" }] })
       .then((data) => {
         if (data) {
-          requests.push(data);
+          requests=data;
           // res.json({ message: "request Generated"});
         } else {
           res.json({ message: "request not Generated" });
@@ -47,9 +47,9 @@ export const getRequestById = async (req, res) => {
       });
     //  console.log( requests,"after initial")
     requests?.map(async (datas, index) => {
-      const newId = new mongoose.Types.ObjectId(datas[index]?.senderId);
+      const newId = new mongoose.Types.ObjectId(datas?.senderId);
 
-      await registeringUser.find({ _id: newId }).then((finalData) => {
+      await registeringUser.findOne({ _id: newId }).then((finalData) => {
         sendingUser.push(finalData);
         console.log(sendingUser, "SendingUser====>");
       });

@@ -1,7 +1,7 @@
 import express from 'express'
 import { AdCounterIncrement, createAd, getAdsById, getAllAds } from '../Controllers/adController.js';
 import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus, updateThumbPic, updateUserCover } from "../Controllers/authControllers.js";
-import { getAllChatsById, getLastMessage, makeCall, sendAlert, sendMessage, updateReadStatus } from '../Controllers/chatController.js';
+import { changeAllCallStatus, changeCallStatus, getAllChatsById, getCallById, getLastMessage, makeCall, sendAlert, sendMessage, updateReadStatus } from '../Controllers/chatController.js';
 import { ApplyForCreator } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import { CreatePoll } from '../Controllers/pollController.js';
@@ -44,6 +44,9 @@ router.post('/newCall', makeCall );
 router.post('/sendAlert', sendAlert );
 router.post('/lastMessage', getLastMessage );
 router.post('/updateLastRead', updateReadStatus);
+router.put('/changeCallStatus', changeCallStatus);
+router.put('/changeAllCallStatus', changeAllCallStatus);
+router.post('/getCallById', getCallById);
 
 // request
 router.post('/makeRequest', sendRequest);
