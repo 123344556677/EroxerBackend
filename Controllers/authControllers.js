@@ -226,6 +226,39 @@ export const updateUserCover= async (req, res) => {
     }
 
 };
+export const updateUserProfile= async (req, res) => {
+    try {
+        console.log(req.body,"--------->user")
+        const id=req.body.userId;
+      await registeringUser.findOneAndUpdate({ _id: id },{
+    $set: {
+      profilePic: req.body.profilePic,
+      },
+    
+  }, 
+  { new: true } 
+)
+      .then((data)=>{
+        if (data) {
+
+            
+                    
+                    res.json({ message: "user updated" })
+                    console.log(data,"============>new data")
+                }
+                else {
+                    res.json({ message: "user does not exist" });
+                }
+
+      })
+
+    }
+    catch (err) {
+        res.json({ message: "Server Error" });
+        console.log(err,"--------->error")
+    }
+
+};
 export const getUsersById = async (req, res) => {
     try{
         console.log(req.body)
@@ -365,7 +398,17 @@ export const verifyCode= async(req,res) => {
         if(code){
  if (code==verification.code&& Date.now() <= verification.expirationTime) {
     res.json({message:"Verification successful"});
-    console.log('Verification successful.');
+     if(req.body.verification==="verify"){
+              await registeringUser.findOneAndUpdate({ _id: req.body.userId },{
+    $set: {
+      verifyStatus: true
+      },
+    
+  }, 
+  { new: true } 
+)
+
+     }
     // Handle the successful verification response here
   } else {
     res.json({message:"Verification invalid"});
