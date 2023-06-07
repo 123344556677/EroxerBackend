@@ -12,7 +12,10 @@ export const addToList = async (req, res) => {
     registeringUser.findOne({ _id: otherId }).then(async (data) => {
       if (data) {
          const newId = new mongoose.Types.ObjectId(otherId);
-        creatingList.findOne({ 'otherData._id': newId })
+        creatingList.findOne({ $and: [
+  { 'otherData._id': newId },
+  { userId: userId }
+] })
           .then(async (datas) => {
             if (datas) {
                 console.log(datas,"came in it")

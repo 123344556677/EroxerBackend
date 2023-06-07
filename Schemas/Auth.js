@@ -73,6 +73,11 @@ const reg = new mongoose.Schema({
         default:"false"
 
     },
+    key:{
+        type:String,
+        default:"user"
+
+    },
     thumbPic: {
         type: String,
 
