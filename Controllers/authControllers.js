@@ -459,7 +459,7 @@ export const getAllUsers=async(req,res)=>{
 };
 export const deleteAccount=async(req,res)=>{
     try {
-        consle.log(req.body)
+        console.log(req.body)
         registeringUser.deleteOne({ _id: req.body.userId })
       .then(() => {
         console.log('Account deleted successfully');

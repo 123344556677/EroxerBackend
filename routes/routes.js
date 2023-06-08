@@ -2,7 +2,7 @@ import express from 'express'
 import { AdCounterIncrement, createAd, getAdsById, getAllAds } from '../Controllers/adController.js';
 import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus, updateThumbPic, updateUserCover, updateUserProfile } from "../Controllers/authControllers.js";
 import { changeAllCallStatus, changeCallStatus, getAllChatsById, getCallById, getLastMessage, makeCall, sendAlert, sendMessage, updateReadStatus } from '../Controllers/chatController.js';
-import { ApplyForCreator } from '../Controllers/creatorController.js';
+import { ApplyForCreator, getAllCreatorRequest, updateCreatorRequestStatus } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import { CreatePoll } from '../Controllers/pollController.js';
 import {createPost, getAllPosts, pollCounterIncrement } from "../Controllers/postController.js";
@@ -19,7 +19,7 @@ router.post('/googleLogin', googleLogin)
 router.post('/sendCode', initiateVerification)
 router.post('/verifyCode', verifyCode)
 router.get('/getAllUsers', getAllUsers)
-router.delete('/deleteAccount',deleteAccount)
+router.post('/deleteAccount',deleteAccount)
 router.put('/updateOnlienStatus',changeOnlineStatus)
 router.post('/updateVerifyStatus', updateVerifyStatus)
 router.put('/updateLiveStreamStatus', updateliveStreamStatus)
@@ -61,8 +61,11 @@ router.post('/addToList', addToList);
 router.post('/getListById', getAllListById);
 router.post('/deleteListDataById', deleteListDataById);
 
+
 //creator
 router.post('/applyForCreator', ApplyForCreator);
+router.get('/getAllCreatorsRequest', getAllCreatorRequest);
+router.put('/updateVideoStatus', updateCreatorRequestStatus);
 
 //poll
 router.post('/createPoll', CreatePoll);

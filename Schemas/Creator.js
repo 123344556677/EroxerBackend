@@ -14,6 +14,9 @@ const creator = new mongoose.Schema({
         default:"pending"
         
     },
+    userData:{
+        type: Object,
+    },
    
     
 

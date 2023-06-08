@@ -9,7 +9,7 @@ export const createAd = async (req, res) => {
             .then((data)=>{
             if(data){
                 
-                res.json({ message: "ad Generated"});
+                res.json({ message: "ad Generated"})
             }
             else{
                

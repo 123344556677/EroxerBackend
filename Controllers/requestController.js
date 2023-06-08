@@ -11,7 +11,7 @@ const pusher = new Pusher({
 });
 
 export const sendRequest = async (req, res) => {
-  console.log(req.body);
+  console.log(req.body,"====>");
   try {
     await creatingRequest.create(req.body).then((data) => {
       if (data) {
@@ -33,7 +33,7 @@ export const sendRequest = async (req, res) => {
 export const getRequestById = async (req, res) => {
   let requests;
   let sendingUser=[];
-  console.log(req.body);
+  console.log(req.body,"======>");
   try {
     await creatingRequest
       .find({ $and: [{ recieverId: req.body.userId }, { status: "pending" }] })
@@ -93,7 +93,8 @@ export const changeRequestStatus = async (req, res) => {
 export const getAllAcceptedUsers = async (req, res) => {
   let requests;
   let sendingUser = [];
-  console.log(req.body, "calling this");
+  console.log(req.body, "======>calling this");
+  console.log(req.body,"======>");
   try {
     await creatingRequest
       .find({
@@ -161,7 +162,7 @@ if (requests.length === sendingUser.length) {
 export const getRequestBySenderId = async (req, res) => {
   let requests = [];
   let sendingUser = [];
-  console.log(req.body);
+  console.log(req.body,"==========>");
   try {
     await creatingRequest.find({ senderId: req.body.userId }).then((data) => {
       if (data) {
