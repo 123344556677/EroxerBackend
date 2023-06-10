@@ -21,7 +21,7 @@ export const ApplyForCreator = async (req, res) => {
 };
 export const getAllCreatorRequest=async(req,res)=>{
     try {
-        const data = await registeringCreator.find({})
+        const data = await registeringCreator.find({}).sort({ timestamp: -1 })
         res.json(data);
     }
     catch (err) {

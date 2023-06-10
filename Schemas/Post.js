@@ -58,7 +58,11 @@ const post = new mongoose.Schema({
         {
         type:String
         }
-    ]
+    ],
+    timestamp: {
+    type: Date,
+    default: Date.now,
+  },
     
     
     

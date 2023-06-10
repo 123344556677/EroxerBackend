@@ -62,7 +62,7 @@ export const createPost = async (req, res) => {
 }
 export const getAllPosts=async(req,res)=>{
     try {
-        const data = await creatingPost.find({})
+        const data = await creatingPost.find({}).sort({ timestamp: -1 })
         res.json(data);
     }
     catch (err) {

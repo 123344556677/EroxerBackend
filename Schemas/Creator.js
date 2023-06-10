@@ -17,7 +17,10 @@ const creator = new mongoose.Schema({
     userData:{
         type: Object,
     },
-   
+   timestamp: {
+    type: Date,
+    default: Date.now,
+  },
     
 
     
