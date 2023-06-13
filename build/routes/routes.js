@@ -7,7 +7,6 @@ import { addToList, deleteListDataById, getAllListById } from '../Controllers/li
 import { CreatePoll } from '../Controllers/pollController.js';
 import {createPost, getAllPosts, pollCounterIncrement } from "../Controllers/postController.js";
 import { changeRequestStatus, getAllAcceptedUsers, getRequestById, getRequestBySenderId, sendRequest } from '../Controllers/requestController.js';
-import { createPayment } from '../Controllers/paymentController.js';
 const router = express.Router();
 //auth
 router.post('/reg', register);
@@ -70,8 +69,6 @@ router.put('/updateVideoStatus', updateCreatorRequestStatus);
 
 //poll
 router.post('/createPoll', CreatePoll);
-//payment
-router.post('/createPayment', createPayment);
 
 
 

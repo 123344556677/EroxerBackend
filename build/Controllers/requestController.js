@@ -2,8 +2,6 @@ import registeringUser from "../Schemas/Auth.js";
 import creatingRequest from "../Schemas/Request.js";
 import mongoose from "mongoose";
 import Pusher from "pusher";
-import Stripe from 'stripe';
-const stripe = new Stripe('sk_test_51MaOSqE6HtvcwmMAEFBEcSwTQIBNvQVzAXJc1cnrFoKIQbIH7i7KfcjxtB0DsRiRECgIaGb30vlq4fVSB6uaHsP400S1cZv15n');
 
 const pusher = new Pusher({
   appId: "1592572",
@@ -15,47 +13,18 @@ const pusher = new Pusher({
 export const sendRequest = async (req, res) => {
   console.log(req.body,"====>");
   try {
-    
-      
-       
-        const payment =  stripe.paymentIntents.create({
-          amount:100*100,
-          currency: "SEK",
-          description: "testing",
-          payment_method:req.body.paymentId,
-          confirm: true
-      })
-      .then((paymentIntents)=>{
-        console.log(paymentIntents)
-
-      
-        if(paymentIntents.status==="succeeded"){
-          creatingRequest.create(req.body)
-            .then((datas)=>{
-            if(datas){
-            
-        
-
-                
-                res.json({ message: "payment Successfull"})
-                 
-            }
-            else{
-               
-               res.json({ message: "payment not Successfull"});
-            }
-            })
-        }
-    
-    
-    })
-        // pusher.trigger("request" + req.body.recieverId, "request", {
-        //   userId: req.body.senderId,
-        //   message: "Sent a Request",
-        //   name: req.body.name,
-        // });
-      
-   
+    await creatingRequest.create(req.body).then((data) => {
+      if (data) {
+        res.json({ message: "request Generated" });
+        pusher.trigger("request" + req.body.recieverId, "request", {
+          userId: req.body.senderId,
+          message: "Sent a Request",
+          name: req.body.name,
+        });
+      } else {
+        res.json({ message: "request not Generated" });
+      }
+    });
   } catch (err) {
     res.json({ message: "Server Error" });
   }
@@ -128,7 +97,10 @@ export const getAllAcceptedUsers = async (req, res) => {
   console.log(req.body,"======>");
   try {
     await creatingRequest
-      .find(  { senderId: req.body.userId })
+      .find({
+        $or: [{ recieverId: req.body.userId }, { senderId: req.body.userId }],
+        $and: [{ status: "accepted" }],
+      })
       .then((data) => {
         if (data) {
           console.log(data, "calling this body");
@@ -164,18 +136,16 @@ export const getAllAcceptedUsers = async (req, res) => {
         const newId = new mongoose.Types.ObjectId(datas?.recieverId);
         await registeringUser.findOne({ _id: datas?.recieverId }).then((finalData) => {
           sendingUser.push(finalData);
-          console.log(finalData, "SendingUser====>");;
+          console.log(finalData, "SendingUser====>");
         });
       }
-      {
-      // if (datas?.recieverId === req.body.userId) {
-      //   const newId = new mongoose.Types.ObjectId(datas?.senderId);
-      //   await registeringUser.findOne({ _id: newId }).then((finalData) => {
-      //     sendingUser.push(finalData);
-      //     console.log(finalData, "coming in this SendingUser====>");
-      //   });
-      // }
-    }
+      if (datas?.recieverId === req.body.userId) {
+        const newId = new mongoose.Types.ObjectId(datas?.senderId);
+        await registeringUser.findOne({ _id: newId }).then((finalData) => {
+          sendingUser.push(finalData);
+          console.log(finalData, "coming in this SendingUser====>");
+        });
+      }
 if (requests.length === sendingUser.length) {
         res.json(sendingUser);
         console.log(sendingUser, "=========>sending accpeted User");

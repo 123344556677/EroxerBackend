@@ -164,7 +164,7 @@ export const updateUser= async (req, res) => {
       profilePic: req.body.profilePic,
       website: req.body.website,
       phoneNumber: req.body.phoneNumber,
-      profilePrice:req.body.profilePrice,
+      Gender:req.body.Gender,
       profileName: req.body.profileName,
     
     },

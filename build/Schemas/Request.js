@@ -11,22 +11,18 @@ const request = new mongoose.Schema({
          required:true
 
     },
-    payment: {
-        type:Number,
-        
+    status: {
+        type: String,
 
     },
-    paymentId: {
-        type: String,
-        required:true
-        
-    },
-    
     timestamp: {
     type: Date,
     default: Date.now,
   },
-  
+  name: {
+        type: String,
+
+    },
    
     
    

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const request = new mongoose.Schema({
+const chat = new mongoose.Schema({
     senderId: {
         type: String,
         required:true
@@ -8,25 +8,21 @@ const request = new mongoose.Schema({
     },
     recieverId: {
         type: String,
-         required:true
 
     },
-    payment: {
-        type:Number,
-        
-
-    },
-    paymentId: {
+    message: {
         type: String,
-        required:true
-        
+
     },
-    
     timestamp: {
     type: Date,
     default: Date.now,
   },
-  
+   readStatus: {
+    type: Boolean,
+    default:false,
+    required:true
+  }
    
     
    
@@ -35,5 +31,5 @@ const request = new mongoose.Schema({
     
 })
 
-const creatingRequest = mongoose.model('request',request )
-export default creatingRequest;
+const creatingChat = mongoose.model('chat',chat )
+export default creatingChat;

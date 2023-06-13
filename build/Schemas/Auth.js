@@ -37,9 +37,6 @@ const reg = new mongoose.Schema({
     profileName: {
     type: String,
     },
-    profilePrice: {
-    type: String,
-    },
     profileEmail: {
     type: String,
     },
@@ -67,11 +64,6 @@ const reg = new mongoose.Schema({
         }
     ],
     verifyStatus:{
-        type:Boolean,
-        default:false
-
-    },
-    creator:{
         type:Boolean,
         default:false
 
