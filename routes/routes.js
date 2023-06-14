@@ -6,8 +6,8 @@ import { ApplyForCreator, getAllCreatorRequest, updateCreatorRequestStatus } fro
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import { CreatePoll } from '../Controllers/pollController.js';
 import {createPost, getAllPosts, pollCounterIncrement } from "../Controllers/postController.js";
-import { changeRequestStatus, getAllAcceptedUsers, getRequestById, getRequestBySenderId, sendRequest } from '../Controllers/requestController.js';
-import { createPayment, getAllPayment } from '../Controllers/paymentController.js';
+import { changeRequestStatus, getAllAcceptedUsers, getRequestById, getSubscriptionByRecieverId, sendRequest } from '../Controllers/requestController.js';
+import { createPayment, getAllPayment, getAllTip, sendTip } from '../Controllers/paymentController.js';
 const router = express.Router();
 //auth
 router.post('/reg', register);
@@ -55,7 +55,7 @@ router.post('/makeRequest', sendRequest);
 router.post('/getRequestById', getRequestById);
 router.put('/changeRequestStatus', changeRequestStatus);
 router.post('/getAllAcceptedUsers', getAllAcceptedUsers);
-router.post('/getRequestBySenderId', getRequestBySenderId);
+router.post('/getRequestBySenderId', getSubscriptionByRecieverId);
 
 //list
 router.post('/addToList', addToList);
@@ -73,6 +73,8 @@ router.post('/createPoll', CreatePoll);
 //payment
 router.post('/createPayment', createPayment);
 router.get('/getAllPayment', getAllPayment);
+router.get('/getAllTip', getAllTip);
+router.post('/sendTip', sendTip);
 
 
 
