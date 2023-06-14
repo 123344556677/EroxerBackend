@@ -36,20 +36,28 @@ export const createPayment = async (req, res) => {
         })
             .then((data)=>{
             if(data){
-                registeringCreator.findOneAndUpdate(
-        { _id: req.body.userId },
+          registeringCreator.findOneAndUpdate(
+        { userId: req.body.userId },
         {$set:{ status:"creator"}},
         { upsert:true, new: true } 
-        )
-        registering.findOneAndUpdate(
+        ).then((datas)=>{
+            if(datas){
+        registeringUser.findOneAndUpdate(
         { _id: req.body.userId },
         {$set:{ creator:true}},
         { upsert:true, new: true } 
-        )
+        ).then((datass)=>{
+            if(datass){
+        res.json({ message: "payment Successfull"})
+            }
+
+        })
+    }
+        })
         
 
                 
-                res.json({ message: "payment Successfull"})
+                
                  
             }
             else{
@@ -61,6 +69,23 @@ export const createPayment = async (req, res) => {
     
     
     })
+    
+       
+        
+        
+        
+    }
+    catch (err) {
+        console.log("error in creating ad", err);
+        res.json({message:"sever error"})
+    }
+}
+export const getAllPayment = async (req, res) => {
+    try {
+        
+        const data = await creatingPayment.find({}).sort({ timestamp: -1 })
+        res.json(data);
+       
     
        
         
