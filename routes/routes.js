@@ -5,7 +5,7 @@ import { changeAllCallStatus, changeCallStatus, getAllChatsById, getCallById, ge
 import { ApplyForCreator, getAllCreatorRequest, updateCreatorRequestStatus } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import { CreatePoll } from '../Controllers/pollController.js';
-import {createPost, getAllPosts, pollCounterIncrement } from "../Controllers/postController.js";
+import {createPost, getAllPosts, pollCounterIncrement, updatePost } from "../Controllers/postController.js";
 import { changeRequestStatus, getAllAcceptedUsers, getRequestById, getSubscriptionByRecieverId, sendRequest } from '../Controllers/requestController.js';
 import { createPayment, getAllPayment, getAllTip, sendTip } from '../Controllers/paymentController.js';
 const router = express.Router();
@@ -33,6 +33,7 @@ router.put('/updateUserProfile', updateUserProfile);
 router.post('/createPost', createPost);
 router.get('/getAllPost', getAllPosts);
 router.post('/pollCounterIncrement',pollCounterIncrement)
+router.put('/updatePost',updatePost)
 //ad
 router.post('/createAd', createAd);
 router.get('/getAllAd', getAllAds);

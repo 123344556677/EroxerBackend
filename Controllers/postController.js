@@ -10,6 +10,9 @@ import creatingPost from '../Schemas/Post.js';
     
 //   })
 //   const post = multer({ Storage: storage }).single("postPic")
+import Stripe from 'stripe';
+import registeringPostPayment from '../Schemas/postPayment.js';
+const stripe = new Stripe('sk_test_51MaOSqE6HtvcwmMAEFBEcSwTQIBNvQVzAXJc1cnrFoKIQbIH7i7KfcjxtB0DsRiRECgIaGb30vlq4fVSB6uaHsP400S1cZv15n');
 
 export const createPost = async (req, res) => {
     
@@ -105,3 +108,50 @@ export const pollCounterIncrement = async (req, res) => {
         res.status(404).json({message:"sever error"})
     }
 }
+export const updatePost= async (req, res) => {
+    try {
+        console.log(req.body,"--------->user")
+        const id=req.body.postId;
+        const payment =  stripe.paymentIntents.create({
+          amount:100*req.body.price,
+          currency: "SEK",
+          description: "testing",
+          payment_method:req.body.paymentId,
+          confirm: true
+      })
+      .then((paymentIntents)=>{
+        console.log(paymentIntents)
+
+      
+        if(paymentIntents.status==="succeeded"){
+       creatingPost.findOneAndUpdate({ _id: id },{
+    
+    $push: { payerId: req.body.payerId },
+  }, 
+  { new: true } 
+)
+      .then((data)=>{
+        if (data) {
+
+           
+                  registeringPostPayment.create(req.body)  
+                    res.json({ message: "post updated" })
+
+                    console.log(data,"============>new data")
+                }
+                else {
+                    res.json({ message: "post does not exist" });
+                }
+
+      })
+    }
+   
+  })
+
+    }
+    catch (err) {
+        res.json({ message: "Server Error" });
+        console.log(err,"--------->error")
+    }
+
+};
