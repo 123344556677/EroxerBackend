@@ -35,9 +35,10 @@ export const register = async (req, res) => {
                 var salt = bcrypt.genSaltSync(10);
                 const hashPassword = bcrypt.hashSync(password, salt);
                 const register = new registeringUser({ firstName,lastName, email, hashPassword});
-                register.save();
-                console.log(req.body);
-                res.status(200).json({ message: "user registered", data: req.body });
+                register.save()
+                .then((data)=>{
+                res.status(200).json({ message: "user registered", data: data });
+                })
             }
             })
         

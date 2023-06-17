@@ -212,7 +212,7 @@ export const getSubscriptionByRecieverId = async (req, res) => {
           sendingUser.push({
             userData:finalData,
           paymentData:datas});
-          console.log(finalData, "SendingUser====>");;
+          console.log(finalData, "SendingUser====>");
         });
       
       {
@@ -233,4 +233,49 @@ if (subscribeUser.length === sendingUser.length) {
   } catch (err) {
     res.json({ message: "Server Error" });
   }
+};
+export const getAllSubscriptions = async (req, res) => {
+  try {
+    let subscribeUser;
+   let sendingUser = [];
+         await creatingRequest.find({}).sort({ timestamp: -1 }).then((data)=>{
+          if(data){
+           subscribeUser=data
+          }
+         })
+         
+       subscribeUser?.map(async (datas, index) => {
+      // console.log(datas.recieverId, "index");
+      
+        // const newId = new mongoose.Types.ObjectId(datas?.senderId);
+        await registeringUser.findOne({ _id: datas?.recieverId }).then((finalData) => {
+          sendingUser.push({
+          recieverData:finalData,
+          paymentData:datas});
+          console.log(finalData, "SendingUser====>");
+        });
+      
+      {
+      // if (datas?.recieverId === req.body.userId) {
+      //   const newId = new mongoose.Types.ObjectId(datas?.senderId);
+      //   await registeringUser.findOne({ _id: newId }).then((finalData) => {
+      //     sendingUser.push(finalData);
+      //     console.log(finalData, "coming in this SendingUser====>");
+      //   });
+      // }
+    }
+if (subscribeUser.length === sendingUser.length) {
+        res.json(sendingUser);
+        console.log(sendingUser, "=========>sending accpeted User");
+      }
+      
+    });
+
+
+
+        
+    }
+    catch (err) {
+        res.json({message:"Server Error"});
+    }
 };

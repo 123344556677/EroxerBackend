@@ -6,8 +6,9 @@ import { ApplyForCreator, getAllCreatorRequest, updateCreatorRequestStatus } fro
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import { CreatePoll } from '../Controllers/pollController.js';
 import {createPost, getAllPosts, pollCounterIncrement, updatePost } from "../Controllers/postController.js";
-import { changeRequestStatus, getAllAcceptedUsers, getRequestById, getSubscriptionByRecieverId, sendRequest } from '../Controllers/requestController.js';
-import { createPayment, getAllPayment, getAllTip, sendTip } from '../Controllers/paymentController.js';
+import { changeRequestStatus, getAllAcceptedUsers, getAllSubscriptions, getRequestById, getSubscriptionByRecieverId, sendRequest } from '../Controllers/requestController.js';
+import { CreatePaymentRequest, createPayment, getAllPayment, getAllPaymentRequest, getAllTip, sendTip, updatePaymentRequestStatus } from '../Controllers/paymentController.js';
+import { createContact, getContactById } from '../Controllers/contactController.js';
 const router = express.Router();
 //auth
 router.post('/reg', register);
@@ -57,6 +58,7 @@ router.post('/getRequestById', getRequestById);
 router.put('/changeRequestStatus', changeRequestStatus);
 router.post('/getAllAcceptedUsers', getAllAcceptedUsers);
 router.post('/getRequestBySenderId', getSubscriptionByRecieverId);
+router.post('/getAllSubscriptions', getAllSubscriptions);
 
 //list
 router.post('/addToList', addToList);
@@ -71,12 +73,19 @@ router.put('/updateVideoStatus', updateCreatorRequestStatus);
 
 //poll
 router.post('/createPoll', CreatePoll);
+
 //payment
 router.post('/createPayment', createPayment);
 router.get('/getAllPayment', getAllPayment);
 router.get('/getAllTip', getAllTip);
 router.post('/sendTip', sendTip);
+router.post('/createPaymentRequest', CreatePaymentRequest);
+router.get('/getAllPaymentRequest', getAllPaymentRequest);
+router.put('/changePaymentRequestStatus', updatePaymentRequestStatus);
 
+//contact
+router.post('/createContact', createContact);
+router.post('/getContactById', getContactById);
 
 
 

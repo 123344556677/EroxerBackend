@@ -6,6 +6,11 @@ const request = new mongoose.Schema({
         required:true
         
     },
+    userData: {
+        type: Object,
+        required:true
+        
+    },
     recieverId: {
         type: String,
          required:true

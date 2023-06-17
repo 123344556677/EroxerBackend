@@ -1,3 +1,4 @@
+import registeringUser from "../Schemas/Auth.js";
 import registeringCreator from "../Schemas/Creator.js";
 export const ApplyForCreator = async (req, res) => {
     try {
@@ -37,9 +38,17 @@ export const updateCreatorRequestStatus = async (req, res) => {
         {$set:{ status:req.body.status}},
         { upsert:true, new: true } 
         )
-      .then(() => {
+      .then((data) => {
+        if(data){
+          registeringUser.findOneAndUpdate(
+        { _id: data.userId },
+        {$set:{ creator:true}},
+        { upsert:true, new: true } 
+        ).then((datas) => {
         console.log('status updated');
          res.json({message:"updated"});
+        })
+        }
       })
       .catch((error) => {
         console.error('status not updated:', error);
