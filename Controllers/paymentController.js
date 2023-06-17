@@ -37,24 +37,18 @@ export const createPayment = async (req, res) => {
         })
             .then((data)=>{
             if(data){
-          registeringCreator.findOneAndUpdate(
-        { userId: req.body.userId },
-        {$set:{ status:"creator"}},
+       
+        registeringUser.findOneAndUpdate(
+        { _id: req.body.userId },
+        {$set:{ eroxrFee:true}},
         { upsert:true, new: true } 
         ).then((datas)=>{
             if(datas){
-        registeringUser.findOneAndUpdate(
-        { _id: req.body.userId },
-        {$set:{ creator:true}},
-        { upsert:true, new: true } 
-        ).then((datass)=>{
-            if(datass){
         res.json({ message: "payment Successfull"})
             }
 
         })
-    }
-        })
+   
         
 
                 

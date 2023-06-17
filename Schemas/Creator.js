@@ -9,6 +9,14 @@ const creator = new mongoose.Schema({
         type: String,
         
     },
+    cnicFront: {
+        type: String,
+        
+    },
+    cnicBack: {
+        type: String,
+        
+    },
     status: {
         type: String,
         default:"pending"

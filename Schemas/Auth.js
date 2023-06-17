@@ -76,6 +76,11 @@ const reg = new mongoose.Schema({
         default:false
 
     },
+    eroxrFee:{
+        type:Boolean,
+        default:false
+
+    },
     liveStreamStatus:{
         type:String,
         default:"false"
