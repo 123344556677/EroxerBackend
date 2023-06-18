@@ -31,7 +31,10 @@ const request = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  
+  notiStatus: {
+    type: Boolean,
+    default: true,
+  },
    
     
    
