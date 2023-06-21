@@ -3,8 +3,15 @@ import registeringCreator from '../Schemas/Creator.js';
 import creatingTip from '../Schemas/Tip.js';
 import creatingPayment from '../Schemas/payment.js';
 import Stripe from 'stripe';
+import Pusher from 'pusher';
 import creatingPaymentRequest from '../Schemas/paymentRequest.js';
 const stripe = new Stripe('sk_test_51MaOSqE6HtvcwmMAEFBEcSwTQIBNvQVzAXJc1cnrFoKIQbIH7i7KfcjxtB0DsRiRECgIaGb30vlq4fVSB6uaHsP400S1cZv15n');
+const pusher = new Pusher({
+appId: "1592572",
+key: "78bfd9bc497cd883c526",
+secret: "79859c470de2032589c1",
+cluster:"ap1"
+});
 
 
 export const createPayment = async (req, res) => {
@@ -101,6 +108,8 @@ export const sendTip = async (req, res) => {
 
       
         if(paymentIntents.status==="succeeded"){
+          
+  
           creatingTip.create(req.body)
             .then((datas)=>{
             if(datas){
@@ -257,6 +266,62 @@ export const updatePaymentRequestStatus = async (req, res) => {
     // }
     // })
   catch (err) {
+    res.json({ message: "Server Error" });
+  }
+};
+export const sendLiveTip = async (req, res) => {
+  console.log(req.body,"====>");
+  try {
+        const senderId=req.body.senderData?._id;
+        const roomId=req.body.recieverId
+      
+       
+        const payment =  stripe.paymentIntents.create({
+          amount:100*req.body.tip,
+          currency: "SEK",
+          description: "testing",
+          payment_method:req.body.paymentId,
+          confirm: true
+      })
+      .then((paymentIntents)=>{
+        console.log(paymentIntents)
+
+      
+        if(paymentIntents.status==="succeeded"){
+        
+      pusher.trigger("tip"+roomId, 'live-tip',{
+        senderData:req.body.senderData,
+        tip: req.body.tip
+       
+    })
+  
+          creatingTip.create(req.body)
+            .then((datas)=>{
+            if(datas){
+            
+        
+
+                
+                res.json({ message: "payment Successfull"})
+                 
+            }
+            else{
+               
+               res.json({ message: "payment not Successfull"});
+            }
+            })
+        }
+    
+    
+    })
+        // pusher.trigger("request" + req.body.recieverId, "request", {
+        //   userId: req.body.senderId,
+        //   message: "Sent a Request",
+        //   name: req.body.name,
+        // });
+      
+   
+  } catch (err) {
     res.json({ message: "Server Error" });
   }
 };

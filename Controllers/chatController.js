@@ -138,38 +138,56 @@ export const changeAllCallStatus = async (req, res) => {
     res.json({ message: "Server Error" });
   }
 };
-export const getCallById = async (req, res) => {
-  let requests;
-  let sendingUser=[];
-  console.log(req.body);
-  try {
-    await creatingCall
-      .find({ $and: [{ roomId: req.body.userId }, { status: "pending" }] })
-      .then((data) => {
-        if (data) {
-          requests=data;
-          // res.json({ message: "request Generated"});
-        } else {
-          res.json({ message: "request not Generated" });
-        }
-      });
-    //  console.log( requests,"after initial")
-    requests?.map(async (datas, index) => {
-      const newId = new mongoose.Types.ObjectId(datas?.senderId);
+// export const getCallById = async (req, res) => {
+//   let requests;
+//   let sendingUser=[];
+//   console.log(req.body);
+//   try {
+//     await creatingCall
+//       .find({ $and: [{ roomId: req.body.userId }, { status: "pending" }] })
+//       .then((data) => {
+//         if (data) {
+//           requests=data;
+//           // res.json({ message: "request Generated"});
+//         } else {
+//           res.json({ message: "request not Generated" });
+//         }
+//       });
+//     //  console.log( requests,"after initial")
+//     requests?.map(async (datas, index) => {
+//       const newId = new mongoose.Types.ObjectId(datas?.senderId);
 
-      await registeringUser.findOne({ _id: newId }).then((finalData) => {
-        sendingUser.push(finalData);
-        console.log(sendingUser, "SendingUser====>");
-      });
-      if (requests.length === sendingUser.length) {
-        res.json(sendingUser);
-      }
+//       await registeringUser.findOne({ _id: newId }).then((finalData) => {
+//         sendingUser.push(finalData);
+//         console.log(sendingUser, "SendingUser====>");
+//       });
+//       if (requests.length === sendingUser.length) {
+//         res.json(sendingUser);
+//       }
+//     });
+//   } catch (err) {
+//     res.json({ message: "Server Error" });
+//   }
+// };
+
+export const getCallById = async (req, res) => {
+  try {
+    const requests = await creatingCall
+      .find({ roomId: req.body.userId, status: "pending" });
+
+    const sendingUserPromises = requests.map(async (data) => {
+      const finalData = await registeringUser.findOne({ _id: data.senderId });
+      return finalData;
     });
+
+    const sendingUser = await Promise.all(sendingUserPromises);
+
+    res.json(sendingUser);
+    console.log(sendingUser, "SendingUser====>");
   } catch (err) {
     res.json({ message: "Server Error" });
   }
 };
-
 export const getAllChatsById=async(req,res)=>{
     const recieverId=req.body.recieverId;
     const senderId=req.body.senderId
