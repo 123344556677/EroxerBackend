@@ -96,6 +96,7 @@ export const getContactById = async (req, res) => {
         ],
       })
       .sort({ timestamp: -1 });
+       console.log(subscribeUser, "=========> accepted User");
 
     const sendingUserPromises = subscribeUser.map(async (data) => {
       let userId;
@@ -106,13 +107,15 @@ export const getContactById = async (req, res) => {
       }
 
       const finalData = await registeringUser.findOne({ _id: userId });
+       console.log(finalData, "=========> sending accepted User");
       return finalData;
+      
     });
 
     const sendingUser = await Promise.all(sendingUserPromises);
 
     res.json(sendingUser);
-    console.log(sendingUser, "=========> sending accepted User");
+   
   } catch (err) {
     res.json({ message: "Server Error" });
   }
