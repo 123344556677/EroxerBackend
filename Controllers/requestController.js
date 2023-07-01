@@ -121,73 +121,73 @@ export const changeRequestStatus = async (req, res) => {
   }
 };
 
-export const getAllAcceptedUsers = async (req, res) => {
-  let requests;
-  let sendingUser = [];
-  console.log(req.body, "======>calling this");
-  console.log(req.body,"======>");
-  try {
-    await creatingRequest
-      .find(  { senderId: req.body.userId })
-      .then((data) => {
-        if (data) {
-          console.log(data, "calling this body");
+// export const getAllAcceptedUsers = async (req, res) => {
+//   let requests;
+//   let sendingUser = [];
+//   console.log(req.body, "======>calling this");
+//   console.log(req.body,"======>");
+//   try {
+//     await creatingRequest
+//       .find(  { senderId: req.body.userId })
+//       .then((data) => {
+//         if (data) {
+//           console.log(data, "calling this body");
 
-          requests=data;
-          // res.json({ message: "request Generated"});
-        } else {
-          res.json({ message: "server error" });
-        }
-      });
-     console.log( requests,"after initial")
-    //  let i;
-    //  for(i=0;i<=requests.length;i++){
-    //     if (requests[i]?.senderId === req.body.userId) {
-    //     const newId = new mongoose.Types.ObjectId(requests[i]?.recieverId);
-    //     await registeringUser.findOne({ _id: newId }).then((finalData) => {
-    //       sendingUser.push(finalData);
-    //       console.log(finalData, "SendingUser====>");
-    //     });
-    //   }
-    //   if (requests[i]?.recieverId === req.body.userId) {
-    //     const newId = new mongoose.Types.ObjectId(requests[i]?.senderId);
-    //     await registeringUser.findOne({ _id: newId }).then((finalData) => {
-    //       sendingUser.push(finalData);
-    //       console.log(finalData, "coming in this SendingUser====>");
-    //     });
-    //   }
+//           requests=data;
+//           // res.json({ message: "request Generated"});
+//         } else {
+//           res.json({ message: "server error" });
+//         }
+//       });
+//      console.log( requests,"after initial")
+//     //  let i;
+//     //  for(i=0;i<=requests.length;i++){
+//     //     if (requests[i]?.senderId === req.body.userId) {
+//     //     const newId = new mongoose.Types.ObjectId(requests[i]?.recieverId);
+//     //     await registeringUser.findOne({ _id: newId }).then((finalData) => {
+//     //       sendingUser.push(finalData);
+//     //       console.log(finalData, "SendingUser====>");
+//     //     });
+//     //   }
+//     //   if (requests[i]?.recieverId === req.body.userId) {
+//     //     const newId = new mongoose.Types.ObjectId(requests[i]?.senderId);
+//     //     await registeringUser.findOne({ _id: newId }).then((finalData) => {
+//     //       sendingUser.push(finalData);
+//     //       console.log(finalData, "coming in this SendingUser====>");
+//     //     });
+//     //   }
 
-    //  }
-    requests?.map(async (datas, index) => {
-      // console.log(datas.recieverId, "index");
-      if (datas?.senderId === req.body.userId) {
-        const newId = new mongoose.Types.ObjectId(datas?.recieverId);
-        await registeringUser.findOne({ _id: datas?.recieverId }).then((finalData) => {
-          sendingUser.push(finalData);
-          console.log(finalData, "SendingUser====>");;
-        });
-      }
-      {
-      // if (datas?.recieverId === req.body.userId) {
-      //   const newId = new mongoose.Types.ObjectId(datas?.senderId);
-      //   await registeringUser.findOne({ _id: newId }).then((finalData) => {
-      //     sendingUser.push(finalData);
-      //     console.log(finalData, "coming in this SendingUser====>");
-      //   });
-      // }
-    }
-if (requests.length === sendingUser.length) {
-        res.json(sendingUser);
-        console.log(sendingUser, "=========>sending accpeted User");
-      }
+//     //  }
+//     requests?.map(async (datas, index) => {
+//       // console.log(datas.recieverId, "index");
+//       if (datas?.senderId === req.body.userId) {
+//         const newId = new mongoose.Types.ObjectId(datas?.recieverId);
+//         await registeringUser.findOne({ _id: datas?.recieverId }).then((finalData) => {
+//           sendingUser.push(finalData);
+//           console.log(finalData, "SendingUser====>");;
+//         });
+//       }
+//       {
+//       // if (datas?.recieverId === req.body.userId) {
+//       //   const newId = new mongoose.Types.ObjectId(datas?.senderId);
+//       //   await registeringUser.findOne({ _id: newId }).then((finalData) => {
+//       //     sendingUser.push(finalData);
+//       //     console.log(finalData, "coming in this SendingUser====>");
+//       //   });
+//       // }
+//     }
+// if (requests.length === sendingUser.length) {
+//         res.json(sendingUser);
+//         console.log(sendingUser, "=========>sending accpeted User");
+//       }
       
-    });
-    console.log(sendingUser, "SendingUser array====>");
+//     });
+//     console.log(sendingUser, "SendingUser array====>");
     
-  } catch (err) {
-    res.json({ message: "Server Error" });
-  }
-};
+//   } catch (err) {
+//     res.json({ message: "Server Error" });
+//   }
+// };
 
 // export const getSubscriptionByRecieverId = async (req, res) => {
 //   let subscribeUser;
@@ -234,6 +234,29 @@ if (requests.length === sendingUser.length) {
 //     res.json({ message: "Server Error" });
 //   }
 // }
+export const getAllAcceptedUsers = async (req, res) => {
+  
+  try {
+    console.log(req.body,"request coming here")
+    const requests = await creatingRequest.find({ senderId: req.body.userId });
+    const sendingUserPromises = requests.map(async (data) => {
+      if (data.senderId === req.body.userId) {
+        const newId = new mongoose.Types.ObjectId(data.recieverId);
+        const finalData = await registeringUser.findOne({ _id: newId });
+        return finalData;
+      }
+    });
+
+    const sendingUser = await Promise.all(sendingUserPromises);
+    const filteredSendingUser = sendingUser.filter((data) => data !== undefined);
+
+    res.json(filteredSendingUser);
+    console.log(filteredSendingUser, "=========> sending accepted Userssssss");
+  } catch (err) {
+    console.error("Server error:", err);
+    res.json({ message: "Server Error" });
+  }
+};
 export const getSubscriptionByRecieverId = async (req, res) => {
   try {
     const subscribeUser = await creatingRequest
@@ -251,7 +274,7 @@ export const getSubscriptionByRecieverId = async (req, res) => {
     const sendingUser = await Promise.all(sendingUserPromises);
 
     res.json(sendingUser);
-    console.log(sendingUser, "=======> sending accepted User");
+    console.log(sendingUser, "=======> sending accepted Userssss");
   } catch (err) {
     res.json({ message: "Server Error" });
   }
