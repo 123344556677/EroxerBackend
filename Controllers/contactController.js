@@ -1,5 +1,6 @@
 import creatingContact from "../Schemas/Contact.js";
 import registeringUser from "../Schemas/Auth.js";
+import mongoose from "mongoose";
 
 export const createContact = async (req, res) => {
     
@@ -100,19 +101,31 @@ export const getContactById = async (req, res) => {
 
     const sendingUserPromises = subscribeUser.map(async (data) => {
       let userId;
+      let newId;
       if (data.contactorId === req.body.userId) {
         userId = data.recieverId;
+         newId = new mongoose.Types.ObjectId(userId);
       } else if (data.recieverId === req.body.userId) {
         userId = data.contactorId;
+         newId = new mongoose.Types.ObjectId(userId);
       }
-
-      const finalData = await registeringUser.findOne({ _id: userId });
-       console.log(finalData, "=========> sending accepted User");
-      return finalData;
+      console.log(userId)
+      
+      try {
+        const finalData = await registeringUser.findOne({_id:userId});
+        console.log(finalData, "=========> sending accepted User");
+        return finalData;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+  
       
     });
+    console.log(sendingUserPromises, "=========> sending accepted User");
 
     const sendingUser = await Promise.all(sendingUserPromises);
+    console.log(sendingUser)
 
     res.json(sendingUser);
    
