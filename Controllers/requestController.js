@@ -259,9 +259,11 @@ export const getAllAcceptedUsers = async (req, res) => {
 };
 export const getSubscriptionByRecieverId = async (req, res) => {
   try {
+    console.log(req.body,"calling")
     const subscribeUser = await creatingRequest
-      .find({ receiverId: req.body.userId })
+      .find({ recieverId: req.body.userId })
       .sort({ timestamp: -1 });
+      console.log(subscribeUser,"now data 1")
 
     const sendingUserPromises = subscribeUser.map(async (data) => {
       const finalData = await registeringUser.findOne({ _id: data.senderId });
@@ -270,8 +272,10 @@ export const getSubscriptionByRecieverId = async (req, res) => {
         paymentData: data,
       };
     });
+   
 
     const sendingUser = await Promise.all(sendingUserPromises);
+     console.log(sendingUserPromises,"now data")
 
     res.json(sendingUser);
     console.log(sendingUser, "=======> sending accepted Userssss");
