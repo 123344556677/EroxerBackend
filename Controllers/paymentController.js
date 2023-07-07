@@ -325,3 +325,35 @@ export const sendLiveTip = async (req, res) => {
     res.json({ message: "Server Error" });
   }
 };
+export const updateTipNotiStatus = async (req, res) => {
+  console.log(req.body,"==========>");
+  try {
+        console.log(req.body)
+        creatingTip.updateMany(
+      {recieverId:req.body.userId},
+      { $set: { notiStatus: false } }
+      
+    ).then((data)=>{
+      console.log(data)
+      res.json({ message: "updated" });
+    })
+      .catch((error) => {
+        console.error('status not updated:', error);
+         res.json({message:"status not updated"});
+      })
+      
+    }
+    // .then((data)=>{
+    // if(data){
+
+    //     res.json({ message: "request Generated"});
+    // }
+    // else{
+
+    //    res.json({ message: "request not Generated"});
+    // }
+    // })
+  catch (err) {
+    res.json({ message: "Server Error" });
+  }
+};

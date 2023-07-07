@@ -7,7 +7,7 @@ import { addToList, deleteListDataById, getAllListById } from '../Controllers/li
 import { CreatePoll } from '../Controllers/pollController.js';
 import {createPost, getAllPosts, pollCounterIncrement, updatePost } from "../Controllers/postController.js";
 import { changeRequestStatus, getAllAcceptedUsers, getAllSubscriptions, getRequestById, getSubscriptionByRecieverId, sendRequest, updateNotiStatus } from '../Controllers/requestController.js';
-import { CreatePaymentRequest, createPayment, getAllPayment, getAllPaymentRequest, getAllTip, sendLiveTip, sendTip, updatePaymentRequestStatus } from '../Controllers/paymentController.js';
+import { CreatePaymentRequest, createPayment, getAllPayment, getAllPaymentRequest, getAllTip, sendLiveTip, sendTip, updatePaymentRequestStatus, updateTipNotiStatus } from '../Controllers/paymentController.js';
 import { createContact, getContactById } from '../Controllers/contactController.js';
 const router = express.Router();
 //auth
@@ -83,7 +83,8 @@ router.post('/sendTip', sendTip);
 router.post('/createPaymentRequest', CreatePaymentRequest);
 router.get('/getAllPaymentRequest', getAllPaymentRequest);
 router.put('/changePaymentRequestStatus', updatePaymentRequestStatus);
-router.put('/liveTip', sendLiveTip);
+router.post('/liveTip', sendLiveTip);
+router.put('/updateTipNotiStatus', updateTipNotiStatus);
 
 //contact
 router.post('/createContact', createContact);

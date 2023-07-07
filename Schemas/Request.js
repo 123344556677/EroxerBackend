@@ -33,7 +33,7 @@ const request = new mongoose.Schema({
   },
   notiStatus: {
     type: Boolean,
-    default: false,
+    default: true,
   },
    
     
