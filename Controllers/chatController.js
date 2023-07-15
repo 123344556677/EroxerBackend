@@ -293,6 +293,39 @@ export const updateReadStatus=async(req,res)=>{
         res.json({message:"Server Error"});
     }
 }
+export const updatePicStatus= async (req, res) => {
+  console.log(req.body,"==========>id");
+  try {
+        console.log(req.body)
+        creatingChat.findOneAndUpdate(
+        { _id: req.body.id },
+        {$set:{ picReadStatus:true}},
+        { upsert:true, new: true } 
+        )
+      .then(() => {
+        console.log('status updated');
+         res.json({message:"updated"});
+      })
+      .catch((error) => {
+        console.error('status not updated:', error);
+         res.json({message:"status not updated"});
+      })
+      
+    }
+    // .then((data)=>{
+    // if(data){
+
+    //     res.json({ message: "request Generated"});
+    // }
+    // else{
+
+    //    res.json({ message: "request not Generated"});
+    // }
+    // })
+  catch (err) {
+    res.json({ message: "Server Error" });
+  }
+};
 
 
 

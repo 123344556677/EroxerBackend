@@ -22,6 +22,11 @@ const chat = new mongoose.Schema({
     type: Boolean,
     default:false,
     required:true
+  },
+  picReadStatus: {
+    type: Boolean,
+    default:false,
+    required:true
   }
    
     

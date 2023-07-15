@@ -1,7 +1,7 @@
 import express from 'express'
 import { AdCounterIncrement, createAd, getAdsById, getAllAds } from '../Controllers/adController.js';
 import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus, updateThumbPic, updateUserCover, updateUserProfile } from "../Controllers/authControllers.js";
-import { changeAllCallStatus, changeCallStatus, getAllChatsById, getCallById, getLastMessage, makeCall, sendAlert, sendMessage, updateReadStatus } from '../Controllers/chatController.js';
+import { changeAllCallStatus, changeCallStatus, getAllChatsById, getCallById, getLastMessage, makeCall, sendAlert, sendMessage, updatePicStatus, updateReadStatus } from '../Controllers/chatController.js';
 import { ApplyForCreator, getAllCreatorRequest, updateCreatorRequestStatus } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import { CreatePoll } from '../Controllers/pollController.js';
@@ -51,6 +51,7 @@ router.post('/updateLastRead', updateReadStatus);
 router.put('/changeCallStatus', changeCallStatus);
 router.put('/changeAllCallStatus', changeAllCallStatus);
 router.post('/getCallById', getCallById);
+router.put('/changePicStatus', updatePicStatus);
 
 // request
 router.post('/makeRequest', sendRequest);
