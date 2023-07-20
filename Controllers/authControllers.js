@@ -24,6 +24,7 @@ export const register = async (req, res) => {
         
         
         const { firstName,lastName,email,password } = req.body;
+        
     
         registeringUser.findOne({ email: email })
             .then((data)=>{
@@ -39,6 +40,36 @@ export const register = async (req, res) => {
                 .then((data)=>{
                 res.status(200).json({ message: "user registered", data: data });
                 })
+                let transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: "hananabdul659@gmail.com",
+                        pass: "hvfvildfxggujcsi",
+                    },
+                });
+                
+            
+
+               var mailOptions = {
+                    from: "Eroxr@hybsoltech.com",
+                    to: email,
+                    subject: "Confirmation Mail",
+                    html: "<h3>Hello!</h3>" +
+                        `<p>This is to inform you that your eroxr account has been created on this email adress </p>  ` +
+                        "<p>Regards,</p>" +
+                        "<p>Eroxr</p>",
+                    
+                };
+
+                transporter.sendMail(mailOptions)
+               .then((data)=>{
+                 res.json({message:"email sent"});
+                 console.log(data)
+               })
+               .catch((err)=>{
+                res.json({message:"email not sent"});
+                console.log(err)
+               })
             }
             })
         
@@ -353,7 +384,7 @@ export const initiateVerification = async(req,res) => {
             
 
                var mailOptions = {
-                    from: "Eroxer@hybsoltech.com",
+                    from: "Eroxr@hybsoltech.com",
                     to: email,
                     subject: "Verification code",
                     html: "<h3>Hello!</h3>" +
@@ -361,7 +392,7 @@ export const initiateVerification = async(req,res) => {
                         "<a> The validity of this code is 60 seconds </a>" +
                         "<p>If you did not request a vaeificatoin code, no further action is required.</p>" +
                         "<p>Regards,</p>" +
-                        "<p>Eroxer</p>",
+                        "<p>Eroxr</p>",
                     
                 };
 
