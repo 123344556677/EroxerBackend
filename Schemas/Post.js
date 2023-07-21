@@ -26,6 +26,12 @@ const post = new mongoose.Schema({
         type: Boolean,
         
     },
+    subscriberCheck: {
+        type: Boolean,
+        
+
+        
+    },
     commentsCheck: {
         type: Boolean,
         
