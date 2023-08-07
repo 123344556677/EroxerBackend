@@ -15,12 +15,12 @@ export const createContact = async (req, res) => {
             .then((data)=>{
             if(data){
             
-                res.json({ message: "contact Generated"});
+                res.json({ message: "contact Generated",status:200});
                 console.log(data)
             }
             else{
                
-               res.json({ message: "conact not Generated"});
+               res.json({ message: "conact not Generated",status:400});
             }
             })
         
@@ -28,7 +28,7 @@ export const createContact = async (req, res) => {
     }
     catch (err) {
         console.log("error in creating post", err);
-        res.status(404).json({message:"sever error"})
+        res.status(404).json({message:"server error",status:500})
     }
 }
 // export const getContactById= async (req, res) => {
@@ -130,6 +130,6 @@ export const getContactById = async (req, res) => {
     res.json(sendingUser);
    
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };

@@ -47,12 +47,12 @@ export const createPost = async (req, res) => {
             .then((data)=>{
             if(data){
             
-                res.json({ message: "post Generated"});
+                res.json({ message: "post Generated",status:200});
                 console.log(data)
             }
             else{
                
-               res.json({ message: "post not Generated"});
+               res.json({ message: "post not Generated",status:400});
             }
             })
         
@@ -69,7 +69,7 @@ export const getAllPosts=async(req,res)=>{
         res.json(data);
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 }
 export const pollCounterIncrement = async (req, res) => {
@@ -135,12 +135,12 @@ export const updatePost= async (req, res) => {
 
            
                   registeringPostPayment.create(req.body)  
-                    res.json({ message: "post updated" })
+                    res.json({ message: "post updated",status:200 })
 
                     console.log(data,"============>new data")
                 }
                 else {
-                    res.json({ message: "post does not exist" });
+                    res.json({ message: "post does not exist",status:400 });
                 }
 
       })
@@ -150,7 +150,7 @@ export const updatePost= async (req, res) => {
 
     }
     catch (err) {
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
         console.log(err,"--------->error")
     }
 

@@ -9,11 +9,11 @@ export const createAd = async (req, res) => {
             .then((data)=>{
             if(data){
                 
-                res.json({ message: "ad Generated"})
+                res.json({ message: "ad Generated",status:200})
             }
             else{
                
-               res.json({ message: "ad not Generated"});
+               res.json({ message: "ad not Generated",status:400});
             }
             })
         
@@ -21,7 +21,7 @@ export const createAd = async (req, res) => {
     }
     catch (err) {
         console.log("error in creating ad", err);
-        res.status(404).json({message:"sever error"})
+        res.json({message:"sever error",status:500})
     }
 }
 export const getAllAds=async(req,res)=>{
@@ -30,7 +30,7 @@ export const getAllAds=async(req,res)=>{
         res.json(data);
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 }
 export const getAdsById = async (req, res) => {
@@ -42,16 +42,16 @@ export const getAdsById = async (req, res) => {
 await creatingAd.findOne({_id:id})
 .then((data)=>{
 if(data){
-    res.json({ message: "Ad Exist", data: data })
+    res.json({ message: "Ad Exist", data: data,status:200 })
 }
 else{
-    res.json({ message: "Ad not  Exist", data: data })
+    res.json({ message: "Ad not Exist", data: data,status:400 })
 }
     
 })
     }
 catch(err){
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
 }
        
 };
@@ -66,15 +66,15 @@ export const AdCounterIncrement = async (req, res) => {
 )
   .then(data => {
     console.log(data)
-    console.log({message:"incremented"});
+    res.json({message:"incremented",status:200});
   })
   .catch(error => {
-    console.error({message:"not incremented",err:error});
+    console.error({message:"not incremented",err:error,status:400});
   });
   
     }
 catch(err){
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
 }
        
 };

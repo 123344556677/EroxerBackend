@@ -63,7 +63,7 @@ export const sendAlert = async (req, res) => {
 
      }).then((data) => {
        if (data) { 
-        res.json({ message: "call Generated" });
+        res.json({ message: "call Generated",status:200 });
       pusher.trigger(roomId, 'client-alert', {
         senderId:senderId,
         message: message,
@@ -73,7 +73,7 @@ export const sendAlert = async (req, res) => {
     
   }
   else {
-        res.json({ message: "call not Generated" });
+        res.json({ message: "call not Generated",status:400 });
       }
    });
   
@@ -84,6 +84,7 @@ export const sendAlert = async (req, res) => {
     }
     catch (err) {
      console.log(err)
+     res.json({message:"Server Error",status:500});
     }
 }
 export const changeCallStatus = async (req, res) => {
@@ -98,19 +99,19 @@ export const changeCallStatus = async (req, res) => {
         ],
       },
       req.body
-    );
-    // .then((data)=>{
-    // if(data){
+    )
+    .then((data)=>{
+    if(data){
 
-    //     res.json({ message: "request Generated"});
-    // }
-    // else{
+        res.json({ message: "request Generated",status:200});
+    }
+    else{
 
-    //    res.json({ message: "request not Generated"});
-    // }
-    // })
+       res.json({ message: "request not Generated",status:400});
+    }
+    })
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 export const changeAllCallStatus = async (req, res) => {
@@ -122,7 +123,7 @@ export const changeAllCallStatus = async (req, res) => {
       
     ).then((data)=>{
       console.log(data)
-      res.json({ message: "updated" });
+      res.json({ message: "updated",status:200 });
     })
     // .then((data)=>{
     // if(data){
@@ -135,7 +136,7 @@ export const changeAllCallStatus = async (req, res) => {
     // }
     // })
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 // export const getCallById = async (req, res) => {
@@ -185,7 +186,7 @@ export const getCallById = async (req, res) => {
     res.json(sendingUser);
     console.log(sendingUser, "SendingUser====>");
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error" ,status:500});
   }
 };
 export const getAllChatsById=async(req,res)=>{
@@ -205,7 +206,7 @@ export const getAllChatsById=async(req,res)=>{
 
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 }
 export const makeCall=async(req,res)=>{
@@ -220,7 +221,7 @@ export const makeCall=async(req,res)=>{
 
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 }
 // export const getLastMessage=async(req,res)=>{
@@ -282,17 +283,24 @@ export const updateReadStatus=async(req,res)=>{
 
 })
  .then((data)=>{
+  if(data){
   
     console.log(data,"------>last message")
-     res.json({message:"updated"});
+     res.json({message:"updated",status:200});
+  }
+  else{
+    res.json({message:"not updated",status:400});
+
+  }
 
  })
+ 
 
  
 
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 }
 export const updatePicStatus= async (req, res) => {
@@ -306,11 +314,11 @@ export const updatePicStatus= async (req, res) => {
         )
       .then(() => {
         console.log('status updated');
-         res.json({message:"updated"});
+         res.json({message:"updated",status:200});
       })
       .catch((error) => {
         console.error('status not updated:', error);
-         res.json({message:"status not updated"});
+         res.json({message:"status not updated",status:400});
       })
       
     }
@@ -325,7 +333,7 @@ export const updatePicStatus= async (req, res) => {
     // }
     // })
   catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 export const getLastMessage = async (req, res) => {
@@ -355,7 +363,7 @@ export const getLastMessage = async (req, res) => {
     console.log(lastMessageArray, "=========>sending last message");
   } catch (err) {
     console.error("Server error:", err);
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 

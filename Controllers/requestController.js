@@ -37,12 +37,12 @@ export const sendRequest = async (req, res) => {
         
 
                 
-                res.json({ message: "payment Successfull"})
+                res.json({ message: "payment Successfull",status:200})
                  
             }
             else{
                
-               res.json({ message: "payment not Successfull"});
+               res.json({ message: "payment not Successfull",status:400});
             }
             })
         }
@@ -57,7 +57,7 @@ export const sendRequest = async (req, res) => {
       
    
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 
@@ -73,7 +73,7 @@ export const getRequestById = async (req, res) => {
           requests=data;
           // res.json({ message: "request Generated"});
         } else {
-          res.json({ message: "request not Generated" });
+          res.json({ message: "request not Generated",status:400 });
         }
       });
     //  console.log( requests,"after initial")
@@ -89,7 +89,7 @@ export const getRequestById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 
@@ -117,7 +117,7 @@ export const changeRequestStatus = async (req, res) => {
     // }
     // })
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 
@@ -254,7 +254,7 @@ export const getAllAcceptedUsers = async (req, res) => {
     console.log(filteredSendingUser, "=========> sending accepted Userssssss");
   } catch (err) {
     console.error("Server error:", err);
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 export const getSubscriptionByRecieverId = async (req, res) => {
@@ -280,7 +280,7 @@ export const getSubscriptionByRecieverId = async (req, res) => {
     res.json(sendingUser);
     console.log(sendingUser, "=======> sending accepted Userssss");
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 // export const getAllSubscriptions = async (req, res) => {
@@ -346,7 +346,7 @@ export const getAllSubscriptions = async (req, res) => {
     res.json(sendingUser);
     console.log(sendingUser, "=========> sending accepted User");
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 
@@ -360,11 +360,11 @@ export const updateNotiStatus = async (req, res) => {
       
     ).then((data)=>{
       console.log(data)
-      res.json({ message: "updated" });
+      res.json({ message: "updated",status:200 });
     })
       .catch((error) => {
         console.error('status not updated:', error);
-         res.json({message:"status not updated"});
+         res.json({message:"status not updated",status:400});
       })
       
     }
@@ -379,6 +379,6 @@ export const updateNotiStatus = async (req, res) => {
     // }
     // })
   catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };

@@ -19,7 +19,7 @@ export const addToList = async (req, res) => {
           .then(async (datas) => {
             if (datas) {
                 console.log(datas,"came in it")
-              res.json({ message: "user already added" });
+              res.json({ message: "user already added",status:400 });
             } else {
               await creatingList
                 .create({
@@ -28,17 +28,17 @@ export const addToList = async (req, res) => {
                 })
                 .then((data) => {
                   console.log(data, "userAdded");
-                  res.json({ message: "user added" });
+                  res.json({ message: "user added",status:400 });
                 });
             }
           });
       } else {
-        res.json({ message: "user not found" })
+        res.json({ message: "user not found",status:400 })
       }
     });
   } catch (err) {
     console.log("error in creating ad", err);
-    res.status(404).json({ message: "sever error" });
+    res.status(404).json({ message: "sever error",status:500 });
   }
 };
 
@@ -48,7 +48,7 @@ export const getAllListById = async (req, res) => {
     const data = await creatingList.find({ userId: userId });
     res.json(data);
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };
 export const deleteListDataById = async (req, res) => {
@@ -59,16 +59,16 @@ export const deleteListDataById = async (req, res) => {
     .then((data)=>{
         if(data){
        
-        res.json({message:"Data deleted"})
+        res.json({message:"Data deleted",status:200})
         }
         else{
-        res.json({message:"not found"})
+        res.json({message:"not found",status:400})
         }
         
 
     })
   
   } catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };

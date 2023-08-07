@@ -8,15 +8,15 @@ export const ApplyForCreator = async (req, res) => {
         .then((data)=>{
             if (data) {
                 console.log(data)
-                res.json({ message: "applied" })
+                res.json({ message: "applied",status:200 })
             }
             else {
-                res.json({ message: "not applied" })
+                res.json({ message: "not applied",status:400 })
             }
         })
     }
      catch (err) {
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
     }
 
 };
@@ -26,7 +26,7 @@ export const getAllCreatorRequest=async(req,res)=>{
         res.json(data);
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 }
 export const updateCreatorRequestStatus = async (req, res) => {
@@ -46,13 +46,13 @@ export const updateCreatorRequestStatus = async (req, res) => {
         { upsert:true, new: true } 
         ).then((datas) => {
         console.log('status updated');
-         res.json({message:"updated"});
+         res.json({message:"updated",status:200});
         })
         }
       })
       .catch((error) => {
         console.error('status not updated:', error);
-         res.json({message:"status not updated"});
+         res.json({message:"status not updated",status:400});
       })
       
     }
@@ -67,6 +67,6 @@ export const updateCreatorRequestStatus = async (req, res) => {
     // }
     // })
   catch (err) {
-    res.json({ message: "Server Error" });
+    res.json({ message: "Server Error",status:500 });
   }
 };

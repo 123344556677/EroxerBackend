@@ -30,7 +30,7 @@ export const register = async (req, res) => {
             .then((data)=>{
             if(data){
                 console.log(req.body)
-                res.json({ message: "Email already exist"});
+                res.json({ message: "Email already exist",status:400});
             }
             else{
                 var salt = bcrypt.genSaltSync(10);
@@ -38,7 +38,7 @@ export const register = async (req, res) => {
                 const register = new registeringUser({ firstName,lastName, email, hashPassword});
                 register.save()
                 .then((data)=>{
-                res.status(200).json({ message: "user registered", data: data });
+                res.status(200).json({ message: "user registered", data: data,status:200 });
                 })
                 let transporter = nodemailer.createTransport({
                     service: "gmail",
@@ -63,11 +63,11 @@ export const register = async (req, res) => {
 
                 transporter.sendMail(mailOptions)
                .then((data)=>{
-                 res.json({message:"email sent"});
+                 res.json({message:"email sent",status:200});
                  console.log(data)
                })
                .catch((err)=>{
-                res.json({message:"email not sent"});
+                res.json({message:"email not sent",status:400});
                 console.log(err)
                })
             }
@@ -77,7 +77,7 @@ export const register = async (req, res) => {
     }
     catch (err) {
         console.log("error in registering data", err);
-        res.status(404).json({message:"sever error"})
+        res.json({message:"sever error",status:500})
     }
 }
 
@@ -94,10 +94,10 @@ export const login = async (req, res) => {
                  console.log(pass);
                 if (pass) {
                     
-                    res.json({ message: "Login Successfull",data:data })
+                    res.json({ message: "Login Successfull",data:data,status:200 })
                 }
                 else {
-                    res.json({ message: "incorrect password" })
+                    res.json({ message: "incorrect password",status:400 })
                 }
             }
             else {
@@ -108,7 +108,7 @@ export const login = async (req, res) => {
 
  }
     catch (err) {
-        res.json({ message: "server error" })
+        res.json({ message: "server error",status:500 })
         console.log("error in login", err)
     }
 }
@@ -133,11 +133,11 @@ export const googleLogin = async (req, res) => {
              if (data) {
                 console.log("registere-------->")
                  
-                 res.json({ message: "Login Successfull",data:data })
+                 res.json({ message: "Login Successfull",data:data,status:200 })
                 
             }
             else {
-                res.json({ message: "user not registered" })
+                res.json({ message: "user not registered",status:400 })
             }
 
         })
@@ -145,6 +145,7 @@ export const googleLogin = async (req, res) => {
  }
     catch (err) {
        console.log("email=====>", err )
+       res.json({message:"Server Error",status:500});
     }
 }
 export const googleReg = async (req, res) => {
@@ -164,7 +165,7 @@ export const googleReg = async (req, res) => {
             .then((data)=>{
             if(data){
                 console.log(req.body)
-                res.json({ message: "Email already exist"});
+                res.json({ message: "Email already exist",status:400});
             }
             else{
              
@@ -175,13 +176,14 @@ export const googleReg = async (req, res) => {
                 const register = new registeringUser({ firstName,lastName, email, profilePic});
                 register.save();
                 console.log(req.body);
-                res.status(200).json({ message: "user registered", data: req.body });
+                res.status(200).json({ message: "user registered", data: req.body,status:200 });
             }
             })
   
  }
     catch (err) {
        console.log("email=====>", err )
+       res.json({message:"Server Error",status:500});
     }
 }
 
@@ -209,18 +211,18 @@ export const updateUser= async (req, res) => {
 
             creatingPost.findOneAndUpdate({ userId: id },{ $set:{userData:data} })
                     
-                    res.json({ message: "user updated" })
+                    res.json({ message: "user updated",status:200 })
                     console.log(data,"============>new data")
                 }
                 else {
-                    res.json({ message: "user does not exist" });
+                    res.json({ message: "user does not exist",status:400 });
                 }
 
       })
 
     }
     catch (err) {
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
         console.log(err,"--------->error")
     }
 
@@ -242,18 +244,18 @@ export const updateUserCover= async (req, res) => {
 
             
                     
-                    res.json({ message: "user updated" })
+                    res.json({ message: "user updated",status:200 })
                     console.log(data,"============>new data")
                 }
                 else {
-                    res.json({ message: "user does not exist" });
+                    res.json({ message: "user does not exist",status:400 });
                 }
 
       })
 
     }
     catch (err) {
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
         console.log(err,"--------->error")
     }
 
@@ -275,18 +277,18 @@ export const updateUserProfile= async (req, res) => {
 
             
                     
-                    res.json({ message: "user updated" })
+                    res.json({ message: "user updated",status:200 })
                     console.log(data,"============>new data")
                 }
                 else {
-                    res.json({ message: "user does not exist" });
+                    res.json({ message: "user does not exist",status:400 });
                 }
 
       })
 
     }
     catch (err) {
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
         console.log(err,"--------->error")
     }
 
@@ -300,16 +302,16 @@ export const getUsersById = async (req, res) => {
 await registeringUser.findOne({_id:id})
 .then((data)=>{
 if(data){
-    res.json({ message: "User Exist", data: data })
+    res.json({ message: "User Exist", data: data,status:200 })
 }
 else{
-    res.json({ message: "User not  Exist", data: data })
+    res.json({ message: "User not  Exist", data: data,status:400 })
 }
     
 })
     }
 catch(err){
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
 }
        
 };
@@ -323,16 +325,16 @@ export const updatePassword = async (req, res) => {
         .then((data)=>{
             if (data) {
                 console.log(data)
-                res.json({ message: "password updated" })
+                res.json({ message: "password updated",status:200 })
             }
             else {
                 console.log("coming here")
-                res.json({ message: "user does not exist" })
+                res.json({ message: "user does not exist",status:400 })
             }
         })
     }
      catch (err) {
-        res.json({ message: "Server Error" });
+        res.json({ message: "Server Error",status:500 });
     }
 
 };
@@ -398,11 +400,11 @@ export const initiateVerification = async(req,res) => {
 
                 await transporter.sendMail(mailOptions)
                .then((data)=>{
-                 res.json({message:"email sent"});
+                 res.json({message:"email sent",status:200});
                  console.log(data)
                })
                .catch((err)=>{
-                res.json({message:"email not sent"});
+                res.json({message:"email not sent",status:400});
                 console.log(err)
                })
             //    console.log(mail)
@@ -418,7 +420,7 @@ export const initiateVerification = async(req,res) => {
                 // });
 }
 catch(err){
-    res.json({message:"Server Error"});
+    res.json({message:"Server Error",status:500});
 }
    
 };
@@ -429,7 +431,7 @@ export const verifyCode= async(req,res) => {
         console.log(verification.code,"code---->");
         if(code){
  if (code==verification.code&& Date.now() <= verification.expirationTime) {
-    res.json({message:"Verification successful"});
+    res.json({message:"Verification successful",status:200});
      if(req.body.verification==="verify"){
               await registeringUser.findOneAndUpdate({ _id: req.body.userId },{
     $set: {
@@ -443,14 +445,14 @@ export const verifyCode= async(req,res) => {
      }
     // Handle the successful verification response here
   } else {
-    res.json({message:"Verification invalid"});
+    res.json({message:"Verification invalid",status:400});
     console.log('Verification code is invalid or has expired.');
     // Handle the invalid/expired verification response here
   }
 }
     }
 catch(err){
-    res.json({message:"Server Error"});
+    res.json({message:"Server Error",status:500});
 }
    
 };
@@ -464,16 +466,16 @@ export const updateVerifyStatus= async(req,res) => {
         )
       .then(() => {
         console.log('status verified');
-         res.json({message:"verified"});
+         res.json({message:"verified",status:200});
       })
       .catch((error) => {
         console.error('status not updated:', error);
-         res.json({message:"status not updated"});
+         res.json({message:"status not updated",status:400});
       })
 }
     
 catch(err){
-    res.json({message:"Server Error"});
+    res.json({message:"Server Error",status:500});
 }
    
 };
@@ -486,7 +488,7 @@ export const getAllUsers=async(req,res)=>{
         res.json(data);
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 };
 export const deleteAccount=async(req,res)=>{
@@ -495,16 +497,16 @@ export const deleteAccount=async(req,res)=>{
         registeringUser.deleteOne({ _id: req.body.userId })
       .then(() => {
         console.log('Account deleted successfully');
-         res.json({message:"Account deleted successfully"});
+         res.json({message:"Account deleted successfully",status:200});
       })
       .catch((error) => {
         console.error('Error deleting account:', error);
-         res.json({message:"Error deleting account"});
+         res.json({message:"Error deleting account",status:400});
       })
       
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 };
 export const changeOnlineStatus=async(req,res)=>{
@@ -517,16 +519,16 @@ export const changeOnlineStatus=async(req,res)=>{
         )
       .then(() => {
         console.log('status updated');
-         res.json({message:"updated"});
+         res.json({message:"updated",status:200});
       })
       .catch((error) => {
         console.error('status not updated:', error);
-         res.json({message:"status not updated"});
+         res.json({message:"status not updated",status:400});
       })
       
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 };
 export const updateliveStreamStatus=async(req,res)=>{
@@ -539,16 +541,16 @@ export const updateliveStreamStatus=async(req,res)=>{
         )
       .then(() => {
         console.log('status updated');
-         res.json({message:"updated"});
+         res.json({message:"updated",status:200});
       })
       .catch((error) => {
         console.error('status not updated:', error);
-         res.json({message:"status not updated"});
+         res.json({message:"status not updated",status:400});
       })
       
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 };
 export const updateThumbPic=async(req,res)=>{
@@ -561,15 +563,15 @@ export const updateThumbPic=async(req,res)=>{
         )
       .then(() => {
         console.log('status updated');
-         res.json({message:"updated"});
+         res.json({message:"updated",status:200});
       })
       .catch((error) => {
         console.error('status not updated:', error);
-         res.json({message:"status not updated"});
+         res.json({message:"status not updated",status:400});
       })
       
     }
     catch (err) {
-        res.json({message:"Server Error"});
+        res.json({message:"Server Error",status:500});
     }
 };
