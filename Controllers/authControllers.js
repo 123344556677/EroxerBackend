@@ -86,7 +86,7 @@ export const login = async (req, res) => {
         const pass = bcrypt.compareSync(password, data.hashPassword);
         console.log(pass);
         if (pass) {
-          res.json({ message: "Login Successfull",status: 200, data: data  });
+          res.json({ message: "Login Successfull",status: 200  });
         } else {
           res.json({ message: "incorrect password", status: 400 });
         }
