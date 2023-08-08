@@ -3,36 +3,24 @@ import registeringUser from "../Schemas/Auth.js";
 import mongoose from "mongoose";
 
 export const createContact = async (req, res) => {
-    
-    try {
-        
-        
-         console.log(req.body)
-      
-    
-    
-             await creatingContact.create(req.body)
-            .then((data)=>{
-            if(data){
-            
-                res.json({ message: "contact Generated",status:200});
-                console.log(data)
-            }
-            else{
-               
-               res.json({ message: "conact not Generated",status:400});
-            }
-            })
-        
-        
-    }
-    catch (err) {
-        console.log("error in creating post", err);
-        res.status(404).json({message:"server error",status:500})
-    }
-}
+  try {
+    console.log(req.body);
+
+    await creatingContact.create(req.body).then((data) => {
+      if (data) {
+        res.json({ message: "contact Generated", status: 200 });
+        console.log(data);
+      } else {
+        res.json({ message: "conact not Generated", status: 400 });
+      }
+    });
+  } catch (err) {
+    console.log("error in creating post", err);
+    res.status(404).json({ message: "server error", status: 500 });
+  }
+};
 // export const getContactById= async (req, res) => {
-    
+
 //     let subscribeUser;
 //    let sendingUser = [];
 //   console.log(req.body,"==========> coming here");
@@ -52,7 +40,7 @@ export const createContact = async (req, res) => {
 //     });
 //    subscribeUser?.map(async (datas, index) => {
 //       // console.log(datas.recieverId, "index");
-      
+
 //         // const newId = new mongoose.Types.ObjectId(datas?.senderId);
 //         if(datas.contactorId===req.body.userId){
 //         await registeringUser.findOne({ _id: datas?.recieverId }).then((finalData) => {
@@ -66,7 +54,7 @@ export const createContact = async (req, res) => {
 //           console.log(finalData, "SendingUser====>");
 //         });
 //     }
-      
+
 //       {
 //       // if (datas?.recieverId === req.body.userId) {
 //       //   const newId = new mongoose.Types.ObjectId(datas?.senderId);
@@ -80,12 +68,12 @@ export const createContact = async (req, res) => {
 //         res.json(sendingUser);
 //         console.log(sendingUser, "=========>sending accpeted User");
 //       }
-      
+
 //     });
 //   } catch (err) {
 //     res.json({ message: "Server Error" });
 //   }
-   
+
 // }
 export const getContactById = async (req, res) => {
   try {
@@ -97,39 +85,36 @@ export const getContactById = async (req, res) => {
         ],
       })
       .sort({ timestamp: -1 });
-       console.log(subscribeUser, "=========> accepted User");
+    console.log(subscribeUser, "=========> accepted User");
 
     const sendingUserPromises = subscribeUser.map(async (data) => {
       let userId;
       let newId;
       if (data.contactorId === req.body.userId) {
         userId = data.recieverId;
-         newId = new mongoose.Types.ObjectId(userId);
+        newId = new mongoose.Types.ObjectId(userId);
       } else if (data.recieverId === req.body.userId) {
         userId = data.contactorId;
-         newId = new mongoose.Types.ObjectId(userId);
+        newId = new mongoose.Types.ObjectId(userId);
       }
-      console.log(userId)
-      
+      console.log(userId);
+
       try {
-        const finalData = await registeringUser.findOne({_id:userId});
+        const finalData = await registeringUser.findOne({ _id: userId });
         console.log(finalData, "=========> sending accepted User");
         return finalData;
       } catch (error) {
         console.error(error);
         throw error;
       }
-  
-      
     });
     console.log(sendingUserPromises, "=========> sending accepted User");
 
     const sendingUser = await Promise.all(sendingUserPromises);
-    console.log(sendingUser)
+    console.log(sendingUser);
 
     res.json(sendingUser);
-   
   } catch (err) {
-    res.json({ message: "Server Error",status:500 });
+    res.json({ message: "Server Error", status: 500 });
   }
 };
