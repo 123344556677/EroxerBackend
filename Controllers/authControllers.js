@@ -325,6 +325,7 @@ const verification = {
   code: "",
   expirationTime: 0,
 };
+
 const generateVerificationCode = () => {
   return Math.floor(100000 + Math.random() * 900000);
 };
@@ -441,7 +442,7 @@ export const updateVerifyStatus = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const data = await registeringUser.find({});
-    res.status(200).json(data);
+    res.json({ message: "Success", status: 200, data:data });
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
   }

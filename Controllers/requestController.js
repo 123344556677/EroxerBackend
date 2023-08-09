@@ -238,7 +238,7 @@ export const getAllAcceptedUsers = async (req, res) => {
       (data) => data !== undefined
     );
 
-    res.status(200).json(filteredSendingUser);
+    res.json({ message: "Success", status: 200, data:filteredSendingUser });
     console.log(filteredSendingUser, "=========> sending accepted Userssssss");
   } catch (err) {
     console.error("Server error:", err);
@@ -331,7 +331,7 @@ export const getAllSubscriptions = async (req, res) => {
 
     const sendingUser = await Promise.all(sendingUserPromises);
 
-    res.status(200).json(sendingUser);
+    res.json({ message: "Success", status: 200, data:sendingUser });
     console.log(sendingUser, "=========> sending accepted User");
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
