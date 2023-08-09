@@ -72,7 +72,7 @@ export const getRequestById = async (req, res) => {
         console.log(sendingUser, "SendingUser====>");
       });
       if (requests.length === sendingUser.length) {
-        res.json(sendingUser);
+        res.json({ message: "Success", status: 200, data:sendingUser });
       }
     });
   } catch (err) {
