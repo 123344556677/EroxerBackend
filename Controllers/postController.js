@@ -56,7 +56,7 @@ export const createPost = async (req, res) => {
 export const getAllPosts = async (req, res) => {
   try {
     const data = await creatingPost.find({}).sort({ timestamp: -1 });
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
   }

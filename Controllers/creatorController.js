@@ -19,7 +19,7 @@ export const ApplyForCreator = async (req, res) => {
 export const getAllCreatorRequest = async (req, res) => {
   try {
     const data = await registeringCreator.find({}).sort({ timestamp: -1 });
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
   }

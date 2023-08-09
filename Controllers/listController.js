@@ -44,7 +44,7 @@ export const getAllListById = async (req, res) => {
   try {
     const userId = req.body.userId;
     const data = await creatingList.find({ userId: userId });
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
   }

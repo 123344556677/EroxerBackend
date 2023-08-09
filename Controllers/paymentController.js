@@ -66,7 +66,7 @@ export const createPayment = async (req, res) => {
 export const getAllPayment = async (req, res) => {
   try {
     const data = await creatingPayment.find({}).sort({ timestamp: -1 });
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     console.log("error in creating ad", err);
     res.json({ message: "sever error", status: 500 });
@@ -142,7 +142,7 @@ export const getAllTip = async (req, res) => {
         // }
       }
       if (subscribeUser.length === sendingUser.length) {
-        res.json(sendingUser);
+        res.status(200).json(sendingUser);
         console.log(sendingUser, "=========>sending accpeted User");
       }
     });
@@ -171,7 +171,7 @@ export const CreatePaymentRequest = async (req, res) => {
 export const getAllPaymentRequest = async (req, res) => {
   try {
     const data = await creatingPaymentRequest.find({}).sort({ timestamp: -1 });
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     console.log("error in creating ad", err);
     res.json({ message: "sever error", status: 500 });

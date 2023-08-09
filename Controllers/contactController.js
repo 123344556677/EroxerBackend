@@ -113,7 +113,7 @@ export const getContactById = async (req, res) => {
     const sendingUser = await Promise.all(sendingUserPromises);
     console.log(sendingUser);
 
-    res.json(sendingUser);
+    res.status(200).json(sendingUser);
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
   }

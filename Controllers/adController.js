@@ -18,7 +18,7 @@ export const createAd = async (req, res) => {
 export const getAllAds = async (req, res) => {
   try {
     const data = await creatingAd.find({});
-    res.json(data);
+    res.json({ message: "Server Error", status: 200, data:data });
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
   }

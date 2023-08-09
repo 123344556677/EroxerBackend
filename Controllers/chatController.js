@@ -166,7 +166,7 @@ export const getCallById = async (req, res) => {
 
     const sendingUser = await Promise.all(sendingUserPromises);
 
-    res.json(sendingUser);
+    res.status(200).json(sendingUser);
     console.log(sendingUser, "SendingUser====>");
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
@@ -318,7 +318,7 @@ export const getLastMessage = async (req, res) => {
     // Wait for all promises to resolve before sending the response
     await Promise.all(promises);
 
-    res.json(lastMessageArray);
+    res.status(200).json(lastMessageArray);
     console.log(lastMessageArray, "=========>sending last message");
   } catch (err) {
     console.error("Server error:", err);
