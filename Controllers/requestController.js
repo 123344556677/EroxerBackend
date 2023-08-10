@@ -264,7 +264,7 @@ export const getSubscriptionByRecieverId = async (req, res) => {
     const sendingUser = await Promise.all(sendingUserPromises);
     console.log(sendingUserPromises, "now data");
 
-    res.json(sendingUser);
+    res.json({ message: "Success", status: 200, data:sendingUser });
     console.log(sendingUser, "=======> sending accepted Userssss");
   } catch (err) {
     res.json({ message: "Server Error", status: 500 });
