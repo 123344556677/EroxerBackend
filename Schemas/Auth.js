@@ -3,10 +3,12 @@ import mongoose from 'mongoose'
 const reg = new mongoose.Schema({
     firstName: {
         type: String,
+        required:true
         
     },
     lastName: {
         type: String,
+        required:true
 
     },
    
@@ -16,6 +18,7 @@ const reg = new mongoose.Schema({
     },
     hashPassword: {
         type: String,
+        required:true
        
     },
    

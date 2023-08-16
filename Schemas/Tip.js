@@ -13,10 +13,12 @@ const tip= new mongoose.Schema({
     },
     tip: {
         type: Number,
+        required:true
 
     },
     paymentId: {
         type: String,
+        required:true
 
     },
     

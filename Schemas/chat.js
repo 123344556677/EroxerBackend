@@ -8,10 +8,12 @@ const chat = new mongoose.Schema({
     },
     recieverId: {
         type: String,
+        required:true
 
     },
     message: {
         type: String,
+        required:true
 
     },
     timestamp: {

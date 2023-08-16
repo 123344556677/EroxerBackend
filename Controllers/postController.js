@@ -61,6 +61,22 @@ export const getAllPosts = async (req, res) => {
     res.json({ message: "Server Error", status: 500 });
   }
 };
+export const getPostsById = async (req, res) => {
+  try {
+    console.log(req.body);
+    const  userId  = req.body.userId;
+
+    await creatingPost.find({ userId: userId }).then((data) => {
+      if (data) {
+        res.json({ message: "success", data: data, status: 200 });
+      } else {
+        res.json({ message: "fail", data: data, status: 400 });
+      }
+    });
+  } catch (err) {
+    res.json({ message: "Server Error", status: 500 });
+  }
+};
 export const pollCounterIncrement = async (req, res) => {
   try {
     console.log(req.body);

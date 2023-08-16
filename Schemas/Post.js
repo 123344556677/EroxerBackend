@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 const post = new mongoose.Schema({
     userId: {
         type: String,
+        required:true
         
         
     },
@@ -13,6 +14,7 @@ const post = new mongoose.Schema({
     // },
     postPic: {
         type:String,
+        required:true
 
     },
     payerId:[
@@ -24,10 +26,12 @@ const post = new mongoose.Schema({
    
     postCheck: {
         type: Boolean,
+        required:true
         
     },
     subscriberCheck: {
         type: Boolean,
+        required:true
         
 
         

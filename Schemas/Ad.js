@@ -8,27 +8,33 @@ const ad = new mongoose.Schema({
     },
     date: {
         type: Date,
+        required:true
 
     },
    
     time: {
         type: String,
+        required:true
         
     },
     adPic: {
         type: String,
+        required:true
         
     },
     availableFor: {
         type: String,
+        required:true
         
     },
     meetingType: {
         type: String,
+        required:true
         
     },
     description: {
         type: String,
+        required:true
         
     },
     userData:{
@@ -36,30 +42,37 @@ const ad = new mongoose.Schema({
     },
     adress: {
         type: String,
+        required:true
         
     },
     country: {
         type: String,
+        required:true
         
     },
     city: {
         type: String,
+        required:true
         
     },
     gender: {
         type: String,
+        required:true
         
     },
     age: {
         type: Number,
+        required:true
         
     },
     province: {
         type: String,
+        required:true
         
     },
     counter: {
         type: Number,
+        
         
     },
     

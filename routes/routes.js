@@ -5,7 +5,7 @@ import { changeAllCallStatus, changeCallStatus, getAllChatsById, getCallById, ge
 import { ApplyForCreator, getAllCreatorRequest, updateCreatorRequestStatus } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
 import { CreatePoll } from '../Controllers/pollController.js';
-import {createPost, getAllPosts, pollCounterIncrement, updatePost } from "../Controllers/postController.js";
+import {createPost, getAllPosts, getPostsById, pollCounterIncrement, updatePost } from "../Controllers/postController.js";
 import { changeRequestStatus, getAllAcceptedUsers, getAllSubscriptions, getRequestById, getSubscriptionByRecieverId, sendRequest, updateNotiStatus } from '../Controllers/requestController.js';
 import { CreatePaymentRequest, createPayment, getAllPayment, getAllPaymentRequest, getAllTip, sendLiveTip, sendTip, updatePaymentRequestStatus, updateTipNotiStatus } from '../Controllers/paymentController.js';
 import { createContact, getContactById } from '../Controllers/contactController.js';
@@ -33,6 +33,7 @@ router.put('/updateUserProfile', updateUserProfile);
 //post
 router.post('/createPost', createPost);
 router.get('/getAllPost', getAllPosts);
+router.post('/getPostsById', getPostsById);
 router.post('/pollCounterIncrement',pollCounterIncrement)
 router.put('/updatePost',updatePost)
 //ad
