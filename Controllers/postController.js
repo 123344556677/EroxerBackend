@@ -50,7 +50,7 @@ export const createPost = async (req, res) => {
     });
   } catch (err) {
     console.log("error in creating post", err);
-    res.status(404).json({ message: "sever error" });
+    res.status(404).json({ message: "server error",status:500,error:err });
   }
 };
 export const getAllPosts = async (req, res) => {

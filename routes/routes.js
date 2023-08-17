@@ -33,7 +33,7 @@ router.put('/updateUserProfile', updateUserProfile);
 //post
 router.post('/createPost', createPost);
 router.get('/getAllPost', getAllPosts);
-router.post('/getPostsById', getPostsById);
+router.post('/getPostsByUserId', getPostsById);
 router.post('/pollCounterIncrement',pollCounterIncrement)
 router.put('/updatePost',updatePost)
 //ad
