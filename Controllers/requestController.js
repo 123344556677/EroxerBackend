@@ -44,7 +44,7 @@ export const sendRequest = async (req, res) => {
     //   name: req.body.name,
     // });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 
@@ -76,7 +76,7 @@ export const getRequestById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 
@@ -104,7 +104,7 @@ export const changeRequestStatus = async (req, res) => {
     // }
     // })
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 
@@ -242,7 +242,7 @@ export const getAllAcceptedUsers = async (req, res) => {
     console.log(filteredSendingUser, "=========> sending accepted Userssssss");
   } catch (err) {
     console.error("Server error:", err);
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const getSubscriptionByRecieverId = async (req, res) => {
@@ -267,7 +267,7 @@ export const getSubscriptionByRecieverId = async (req, res) => {
     res.json({ message: "Success", status: 200, data:sendingUser });
     console.log(sendingUser, "=======> sending accepted Userssss");
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 // export const getAllSubscriptions = async (req, res) => {
@@ -334,7 +334,7 @@ export const getAllSubscriptions = async (req, res) => {
     res.json({ message: "Success", status: 200, data:sendingUser });
     console.log(sendingUser, "=========> sending accepted User");
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 
@@ -366,6 +366,6 @@ export const updateNotiStatus = async (req, res) => {
     //    res.json({ message: "request not Generated"});
     // }
     // })
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };

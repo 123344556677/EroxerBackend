@@ -16,7 +16,7 @@ export const createContact = async (req, res) => {
     });
   } catch (err) {
     console.log("error in creating post", err);
-    res.status(404).json({ message: "server error", status: 500 });
+    res.status(404).json({ message: "server error", status: 500,error:err });
   }
 };
 // export const getContactById= async (req, res) => {
@@ -115,6 +115,6 @@ export const getContactById = async (req, res) => {
 
     res.json({ message: "Success", status: 200, data:sendingUser });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500 ,error:err});
   }
 };

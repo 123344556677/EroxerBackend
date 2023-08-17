@@ -13,7 +13,7 @@ export const ApplyForCreator = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const getAllCreatorRequest = async (req, res) => {
@@ -21,7 +21,7 @@ export const getAllCreatorRequest = async (req, res) => {
     const data = await registeringCreator.find({}).sort({ timestamp: -1 });
     res.json({ message: "Success", status: 200, data:data });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const updateCreatorRequestStatus = async (req, res) => {
@@ -63,6 +63,6 @@ export const updateCreatorRequestStatus = async (req, res) => {
     //    res.json({ message: "request not Generated"});
     // }
     // })
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };

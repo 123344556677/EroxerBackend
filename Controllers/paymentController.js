@@ -60,7 +60,7 @@ export const createPayment = async (req, res) => {
       });
   } catch (err) {
     console.log("error in creating ad", err);
-    res.json({ message: "sever error" });
+    res.json({ message: "sever error", status:500,error:err });
   }
 };
 export const getAllPayment = async (req, res) => {
@@ -69,7 +69,7 @@ export const getAllPayment = async (req, res) => {
     res.json({ message: "Success", status: 200, data:data });
   } catch (err) {
     console.log("error in creating ad", err);
-    res.json({ message: "sever error", status: 500 });
+    res.json({ message: "sever error", status: 500,error:err });
   }
 };
 export const sendTip = async (req, res) => {
@@ -91,7 +91,7 @@ export const sendTip = async (req, res) => {
             if (datas) {
               res.json({ message: "payment Successfull", status: 200 });
             } else {
-              res.json({ message: "payment not Successfull", status: 400 });
+              res.json({ message: "payment not Successfull", status: 400,error:err });
             }
           });
         }
@@ -148,7 +148,7 @@ export const getAllTip = async (req, res) => {
     });
   } catch (err) {
     console.log("error in creating ad", err);
-    res.json({ message: "sever error", status: 500 });
+    res.json({ message: "sever error", status: 500,error:err });
   }
 };
 export const CreatePaymentRequest = async (req, res) => {
@@ -165,7 +165,7 @@ export const CreatePaymentRequest = async (req, res) => {
     });
   } catch (err) {
     console.log("error in creating post", err);
-    res.status(404).json({ message: "sever error", status: 500 });
+    res.status(404).json({ message: "sever error", status: 500,error:err });
   }
 };
 export const getAllPaymentRequest = async (req, res) => {
@@ -174,7 +174,7 @@ export const getAllPaymentRequest = async (req, res) => {
     res.json({ message: "Success", status: 200, data:data });
   } catch (err) {
     console.log("error in creating ad", err);
-    res.json({ message: "sever error", status: 500 });
+    res.json({ message: "sever error", status: 500,error:err });
   }
 };
 export const updatePaymentRequestStatus = async (req, res) => {
@@ -206,7 +206,7 @@ export const updatePaymentRequestStatus = async (req, res) => {
     //    res.json({ message: "request not Generated"});
     // }
     // })
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const sendLiveTip = async (req, res) => {
@@ -247,7 +247,7 @@ export const sendLiveTip = async (req, res) => {
     //   name: req.body.name,
     // });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const updateTipNotiStatus = async (req, res) => {
@@ -278,6 +278,6 @@ export const updateTipNotiStatus = async (req, res) => {
     //    res.json({ message: "request not Generated"});
     // }
     // })
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };

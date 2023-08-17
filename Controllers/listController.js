@@ -46,7 +46,7 @@ export const getAllListById = async (req, res) => {
     const data = await creatingList.find({ userId: userId });
     res.json({ message: "Success", status: 200, data:data });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const deleteListDataById = async (req, res) => {
@@ -61,6 +61,6 @@ export const deleteListDataById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };

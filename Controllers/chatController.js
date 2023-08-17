@@ -36,7 +36,7 @@ export const sendMessage = async (req, res) => {
         messages.save();
       });
   } catch (err) {
-    console.log(err);
+   res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const sendAlert = async (req, res) => {
@@ -69,7 +69,7 @@ export const sendAlert = async (req, res) => {
       });
   } catch (err) {
     console.log(err);
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const changeCallStatus = async (req, res) => {
@@ -94,7 +94,7 @@ export const changeCallStatus = async (req, res) => {
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const changeAllCallStatus = async (req, res) => {
@@ -117,7 +117,7 @@ export const changeAllCallStatus = async (req, res) => {
     // }
     // })
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 // export const getCallById = async (req, res) => {
@@ -169,7 +169,7 @@ export const getCallById = async (req, res) => {
     res.json({ message: "Success", status: 200, data:sendingUser });
     console.log(sendingUser, "SendingUser====>");
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const getAllChatsById = async (req, res) => {
@@ -189,7 +189,7 @@ export const getAllChatsById = async (req, res) => {
         res.json({ message: "Success", status: 200, data:data});
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const makeCall = async (req, res) => {
@@ -198,7 +198,7 @@ export const makeCall = async (req, res) => {
   try {
     pusher.trigger(`call`, "new-call", { callerId, accepterId });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 // export const getLastMessage=async(req,res)=>{
@@ -258,7 +258,7 @@ export const updateReadStatus = async (req, res) => {
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const updatePicStatus = async (req, res) => {
@@ -290,7 +290,7 @@ export const updatePicStatus = async (req, res) => {
     //    res.json({ message: "request not Generated"});
     // }
     // })
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const getLastMessage = async (req, res) => {
@@ -322,6 +322,6 @@ export const getLastMessage = async (req, res) => {
     console.log(lastMessageArray, "=========>sending last message");
   } catch (err) {
     console.error("Server error:", err);
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500 ,error:err});
   }
 };

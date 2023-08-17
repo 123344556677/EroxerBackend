@@ -73,7 +73,7 @@ export const register = async (req, res) => {
     });
   } catch (err) {
     console.log("error in registering data", err);
-    res.json({ message: "sever error", status: 500 });
+    res.json({ message: "sever error", status: 500,error:err });
   }
 };
 
@@ -95,7 +95,7 @@ export const login = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "server error", status: 500 });
+    res.json({ message: "server error", status: 500,error:err });
     console.log("error in login", err);
   }
 };
@@ -124,7 +124,7 @@ export const googleLogin = async (req, res) => {
     });
   } catch (err) {
     console.log("email=====>", err);
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const googleReg = async (req, res) => {
@@ -163,7 +163,7 @@ export const googleReg = async (req, res) => {
     });
   } catch (err) {
     console.log("email=====>", err);
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500 ,error:err});
   }
 };
 
@@ -202,7 +202,7 @@ export const updateUser = async (req, res) => {
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
     console.log(err, "--------->error");
   }
 };
@@ -229,7 +229,7 @@ export const updateUserCover = async (req, res) => {
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
     console.log(err, "--------->error");
   }
 };
@@ -256,7 +256,7 @@ export const updateUserProfile = async (req, res) => {
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
     console.log(err, "--------->error");
   }
 };
@@ -273,7 +273,7 @@ export const getUsersById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const updatePassword = async (req, res) => {
@@ -297,7 +297,7 @@ export const updatePassword = async (req, res) => {
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500 ,error:err});
   }
 };
 // export const sendMobileCode = async (req,res) =>{
@@ -381,7 +381,7 @@ export const initiateVerification = async (req, res) => {
     //     }
     // });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const verifyCode = async (req, res) => {
@@ -414,7 +414,7 @@ export const verifyCode = async (req, res) => {
       }
     }
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const updateVerifyStatus = async (req, res) => {
@@ -435,7 +435,7 @@ export const updateVerifyStatus = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 
@@ -444,7 +444,7 @@ export const getAllUsers = async (req, res) => {
     const data = await registeringUser.find({});
     res.json({ message: "Success", status: 200, data:data });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500 ,error:err});
   }
 };
 export const deleteAccount = async (req, res) => {
@@ -461,7 +461,7 @@ export const deleteAccount = async (req, res) => {
         res.json({ message: "Error deleting account", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const changeOnlineStatus = async (req, res) => {
@@ -482,7 +482,7 @@ export const changeOnlineStatus = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const updateliveStreamStatus = async (req, res) => {
@@ -503,7 +503,7 @@ export const updateliveStreamStatus = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const updateThumbPic = async (req, res) => {
@@ -524,6 +524,6 @@ export const updateThumbPic = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };

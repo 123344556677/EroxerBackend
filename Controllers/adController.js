@@ -12,7 +12,7 @@ export const createAd = async (req, res) => {
     });
   } catch (err) {
     console.log("error in creating ad", err);
-    res.json({ message: "sever error", status: 500 });
+    res.json({ message: "sever error", status: 500,error:err });
   }
 };
 export const getAllAds = async (req, res) => {
@@ -20,7 +20,7 @@ export const getAllAds = async (req, res) => {
     const data = await creatingAd.find({});
     res.json({ message: "Success", status: 200, data:data });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const getAdsById = async (req, res) => {
@@ -36,7 +36,7 @@ export const getAdsById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
 export const AdCounterIncrement = async (req, res) => {
@@ -57,6 +57,6 @@ export const AdCounterIncrement = async (req, res) => {
         console.error({ message: "not incremented", err: error, status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,error:err });
   }
 };
