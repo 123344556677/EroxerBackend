@@ -527,3 +527,33 @@ export const updateThumbPic = async (req, res) => {
     res.json({ message: "Server Error", status: 500,error:err });
   }
 };
+export const redirectToDashboard = async (req, res) => {
+  try {
+    console.log(req.body);
+    const payload = {
+      userId: req.body.userId,
+    };
+    const options = {
+      expiresIn: "1h", 
+    };
+    const secretKey = req.body.userId;
+   
+    registeringUser
+      .findOne(
+        { _id: req.body.userId },
+      )
+      .then((data) => {
+        console.log(data,"--------->")
+        const token = jwt.sign(payload, secretKey, options);
+        res.json({ message: "success", userId:req.body.userId, token:token, status: 200 });
+      })
+      .catch((error) => {
+        console.error("status not updated:", error);
+        res.json({ message: "fail", status: 400 });
+      });
+  } catch (err) {
+    res.json({ message: "Server Error", status: 500,error:err });
+  }
+};
+
+

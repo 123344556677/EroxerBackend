@@ -1,6 +1,6 @@
 import express from 'express'
-import { AdCounterIncrement, createAd, getAdsById, getAllAds } from '../Controllers/adController.js';
-import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus, updateThumbPic, updateUserCover, updateUserProfile } from "../Controllers/authControllers.js";
+import { AdCounterIncrement, createAd, filteredAds, getAdsById, getAllAds } from '../Controllers/adController.js';
+import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus, updateThumbPic, updateUserCover, updateUserProfile, redirectToDashboard} from "../Controllers/authControllers.js";
 import { changeAllCallStatus, changeCallStatus, getAllChatsById, getCallById, getLastMessage, makeCall, sendAlert, sendMessage, updatePicStatus, updateReadStatus } from '../Controllers/chatController.js';
 import { ApplyForCreator, getAllCreatorRequest, updateCreatorRequestStatus } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
@@ -28,6 +28,8 @@ router.put('/updateLiveStreamStatus', updateliveStreamStatus)
 router.put('/updateThumbPic', updateThumbPic)
 router.put('/updateUserCover', updateUserCover);
 router.put('/updateUserProfile', updateUserProfile);
+router.post('/dashboardUrl', redirectToDashboard);
+
 
 
 //post
@@ -41,6 +43,8 @@ router.post('/createAd', createAd);
 router.get('/getAllAd', getAllAds);
 router.get('/getAdById/:id', getAdsById);
 router.put('/counterIncrement', AdCounterIncrement);
+router.post('/filteredAds', filteredAds);
+router.post('/getFilteredAds',filteredAds);
 
 //chat
 router.post('/sendMessage', sendMessage);

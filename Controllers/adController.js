@@ -60,3 +60,36 @@ export const AdCounterIncrement = async (req, res) => {
     res.json({ message: "Server Error", status: 500,error:err });
   }
 };
+export const filteredAds = async (req, res) => {
+  try {
+    console.log(req.body);
+    const {filteredConditions}=req.body
+    const filteredUsers = await getFilteredAds(filteredConditions);
+    console.log(filteredUsers,"response======>")
+    res.json({ message: "success",status: 200,data:filteredUsers });
+  } catch (err) {
+    res.json({ message: "Server Error", status: 500,error:err });
+  }
+};
+async function getFilteredAds(filters) {
+  try {
+    const data = await creatingAd.find();
+
+    const filteredData = data.filter(document => {
+      for (const key in filters) {
+        if (!document[key] || document[key] !== filters[key]) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    if (filteredData.length === 0) {
+      return 'No matching data found';
+    }
+
+    return filteredData;
+  } catch (error) {
+    throw error;
+  }
+}
