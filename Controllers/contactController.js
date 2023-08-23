@@ -4,19 +4,21 @@ import mongoose from "mongoose";
 
 export const createContact = async (req, res) => {
   try {
-    console.log(req.body);
+    const contactDetails = req.body; // Assuming req.body contains the contact details
 
-    await creatingContact.create(req.body).then((data) => {
-      if (data) {
-        res.json({ message: "contact Generated", status: 200 });
-        console.log(data);
-      } else {
-        res.json({ message: "conact not Generated", status: 400 });
-      }
-    });
+    // Check if a contact with the same details already exists
+    const existingContact = await creatingContact.findOne(contactDetails);
+
+    if (existingContact) {
+      res.json({ message: "Contact already exists in the inbox", status: 200 });
+    } else {
+      // If contact doesn't exist, create it
+      await creatingContact.create(contactDetails);
+      res.json({ message: "Contact added to the inbox", status: 200 });
+    }
   } catch (err) {
-    console.log("error in creating post", err);
-    res.status(404).json({ message: "server error", status: 500,error:err });
+    console.log("Error in creating contact", err);
+    res.status(500).json({ message: "Server error", status: 500, error: err });
   }
 };
 // export const getContactById= async (req, res) => {

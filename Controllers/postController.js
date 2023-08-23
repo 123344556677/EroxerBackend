@@ -18,29 +18,7 @@ const stripe = new Stripe(
 export const createPost = async (req, res) => {
   try {
     console.log(req.body);
-
-    //     await creatingPost.create({
-    //         userId:req.body.userId,
-    //         postPic:{
-    //         data:req.body.postPic,
-    //         contentType:"image/png"},
-    //   postCheck:req.body.postCheck,
-    //   commentsCheck:req.body.commentsCheck,
-    //   price:req.body.price,
-    //   postProfilePic:req.body.postProfilePic
-
-    //     })
-    //         .then((data)=>{
-    //         if(data){
-
-    //             res.json({ message: "post Generated"});
-    //         }
-    //         else{
-
-    //            res.json({ message: "post not Generated"});
-    //         }
-    //         })
-    await creatingPost.create(req.body).then((data) => {
+await creatingPost.create(req.body).then((data) => {
       if (data) {
         res.json({ message: "post Generated", status: 200 });
         console.log(data);
@@ -59,6 +37,34 @@ export const getAllPosts = async (req, res) => {
     res.json({ message: "Success", status: 200, data:data });
   } catch (err) {
     res.json({ message: "Server Error", status: 500,error:err });
+  }
+};
+export const getPaginatedPosts = async (req, res) => {
+  console.log(req.body,"pge======>")
+  const pageNumber = req.body.page || 1; // Get the requested page number from the query parameter
+  const itemsPerPage = 10; // Number of items to show per page
+
+  try {
+    const totalCount = await creatingPost.countDocuments(); // Get the total number of documents
+
+    const totalPages = Math.ceil(totalCount / itemsPerPage); // Calculate total number of pages
+
+    const skipCount = (pageNumber - 1) * itemsPerPage; // Calculate the number of items to skip
+
+    const data = await creatingPost.find({})
+      .sort({ timestamp: -1 })
+      .skip(skipCount)
+      .limit(itemsPerPage);
+
+    res.json({
+      message: "Success",
+      status: 200,
+      data: data,
+      totalPages: totalPages,
+      currentPage: pageNumber,
+    });
+  } catch (err) {
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const getPostsById = async (req, res) => {

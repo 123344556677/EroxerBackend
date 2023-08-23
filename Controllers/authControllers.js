@@ -142,7 +142,7 @@ export const googleReg = async (req, res) => {
     registeringUser.findOne({ email: email }).then((data) => {
       if (data) {
         console.log(req.body);
-        res.json({ message: "Email already exist", status: 400 });
+        res.json({ message: "Email already exist", status: 200,data:data });
       } else {
         const firstName = given_name;
         const lastName = family_name;
