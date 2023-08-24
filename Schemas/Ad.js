@@ -39,6 +39,7 @@ const ad = new mongoose.Schema({
     },
     userData:{
         type: Object,
+        required:true
     },
     adress: {
         type: String,

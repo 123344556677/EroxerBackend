@@ -49,6 +49,7 @@ const post = new mongoose.Schema({
     },
     userData:{
         type: Object,
+        required:true
     },
    question: {
         type:String
