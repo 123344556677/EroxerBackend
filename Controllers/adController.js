@@ -85,7 +85,7 @@ async function getFilteredAds(filters) {
     });
 
     if (filteredData.length === 0) {
-      return 'No matching data found';
+      return [];
     }
 
     return filteredData;
