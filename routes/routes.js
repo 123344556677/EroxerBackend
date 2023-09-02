@@ -1,6 +1,6 @@
 import express from 'express'
 import { AdCounterIncrement, createAd, filteredAds, getAdsById, getAllAds } from '../Controllers/adController.js';
-import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus, updateThumbPic, updateUserCover, updateUserProfile, redirectToDashboard} from "../Controllers/authControllers.js";
+import { register, login, updateUser, getUsersById, updatePassword, googleReg, initiateVerification, getAllUsers, googleLogin, verifyCode, deleteAccount, changeOnlineStatus, updateVerifyStatus, updateliveStreamStatus, updateThumbPic, updateUserCover, updateUserProfile, redirectToDashboard, FacebookReg} from "../Controllers/authControllers.js";
 import { changeAllCallStatus, changeCallStatus, getAllChatsById, getCallById, getLastMessage, makeCall, sendAlert, sendMessage, updatePicStatus, updateReadStatus } from '../Controllers/chatController.js';
 import { ApplyForCreator, getAllCreatorRequest, updateCreatorRequestStatus } from '../Controllers/creatorController.js';
 import { addToList, deleteListDataById, getAllListById } from '../Controllers/listController.js';
@@ -17,6 +17,7 @@ router.put('/updateUser', updateUser);
 router.post('/userById', getUsersById)
 router.put('/updatePassword',updatePassword, )
 router.post('/googleReg', googleReg)
+router.post('/facebookReg', FacebookReg)
 router.post('/googleLogin', googleLogin)
 router.post('/sendCode', initiateVerification)
 router.post('/verifyCode', verifyCode)

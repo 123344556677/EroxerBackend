@@ -166,6 +166,34 @@ export const googleReg = async (req, res) => {
     res.json({ message: "Server Error", status: 500 ,error:err});
   }
 };
+export const FacebookReg = async (req, res) => {
+  console.log(req.body, "body------->");
+
+  try {
+     const facebookId=req.body.id;
+     const firstName=req.body.name
+    registeringUser.findOne({ facebookId: facebookId }).then((data) => {
+      if (data) {
+        console.log(req.body);
+        res.json({ message: "user registered", status: 200,data:data });
+      } else {
+      const register = new registeringUser({
+          firstName,
+          facebookId
+        });
+        register.save()
+        .then((data)=>{
+          res.status(200).json({ message: "user registered", data:data , status: 200 });
+        })
+        console.log(req.body);
+        
+      }
+    });
+  } catch (err) {
+    console.log("email=====>", err);
+    res.json({ message: "Server Error", status: 500 ,error:err});
+  }
+};
 
 export const updateUser = async (req, res) => {
   try {
@@ -186,7 +214,7 @@ export const updateUser = async (req, res) => {
           },
           $push: { profileWishlist: req.body.profileWishlist },
         },
-        { new: true }
+        { new: true,upsert:true }
       )
       .then((data) => {
         if (data) {
@@ -195,7 +223,7 @@ export const updateUser = async (req, res) => {
             { $set: { userData: data } }
           );
 
-          res.json({ message: "user updated", status: 200 });
+          res.json({ message: "user updated", status: 200,data:data });
           console.log(data, "============>new data");
         } else {
           res.json({ message: "user does not exist", status: 400 });
@@ -218,11 +246,11 @@ export const updateUserCover = async (req, res) => {
             backgroundImage: req.body.backgroundImage,
           },
         },
-        { new: true }
+        { new: true,upsert:true  }
       )
       .then((data) => {
         if (data) {
-          res.json({ message: "user updated", status: 200 });
+          res.json({ message: "user updated", status: 200,data:data });
           console.log(data, "============>new data");
         } else {
           res.json({ message: "user does not exist", status: 400 });
@@ -245,11 +273,11 @@ export const updateUserProfile = async (req, res) => {
             profilePic: req.body.profilePic,
           },
         },
-        { new: true }
+        { new: true,upsert:true  }
       )
       .then((data) => {
         if (data) {
-          res.json({ message: "user updated", status: 200 });
+          res.json({ message: "user updated", status: 200,data:data });
           console.log(data, "============>new data");
         } else {
           res.json({ message: "user does not exist", status: 400 });

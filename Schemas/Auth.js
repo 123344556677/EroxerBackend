@@ -8,7 +8,7 @@ const reg = new mongoose.Schema({
     },
     lastName: {
         type: String,
-        required:true
+        
 
     },
    
@@ -18,7 +18,7 @@ const reg = new mongoose.Schema({
     },
     hashPassword: {
         type: String,
-        required:true
+        
        
     },
    
