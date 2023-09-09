@@ -10,17 +10,18 @@ initializeApp({
   credential: applicationDefault(),
   projectId: 'potion-for-creators',
 });
-const admin = getMessaging();
+
 
 export const Notification = async (req, res) => {
-  const { title, body, callerId,recieverId,type } = req.body;
+    console.log(req.body)
+  const { title, body, callerId, recieverId, type } = req.body;
 
   if (!callerId) {
-    return res.json({status:500,message:'Caller ID is required'});
+    return res.json({ status: 500, message: 'Caller ID is required' });
   }
 
   // Define notification payload
- const payload = {
+  const payload = {
     notification: {
       title,
       body,
@@ -37,27 +38,36 @@ export const Notification = async (req, res) => {
     priority: 'high',
   };
 
-  // Find the user's token based on the callerId
-  firebaseToken.findOne({ userId:recieverId})
-    .then((userToken) => {
-      if (!userToken) {
-        return res.json({status:500,message:'User token not found'});
-      }
-      const callerData=registeringUser.findOne({_id:callerId});
-      const data={
-          callerId:callerId,
-          recieverId:recieverId,
-          callerData:callerData,
-          type:type
-      }
-        payload.data.callerData = callerData;
-        
+  try {
+    // Find the user's token based on the callerId
+    const userToken = await firebaseToken.findOne({ userId: recieverId });
 
+    if (!userToken) {
+      return res.json({ status: 500, message: 'User token not found' });
+    }
+   
 
-      // Send the notification to the user's token
-      admin.messaging().sendToDevice(userToken.token, payload, options)
-        .then(() => res.json({status:200,message:'Notification sent successfully',data:data}))
-        .catch((error) => res.json({status:500,message:'Error sending notification: ' + error}));
-    })
-    .catch((error) => res.status(500).send('Error fetching user token: ' + error));
+    // Fetch caller data (assuming you have a schema/model named registeringUser)
+    const callerData = await registeringUser.findOne({ _id: callerId });
+
+    if (!callerData) {
+      return res.json({ status: 500, message: 'Caller data not found' });
+    }
+
+    const data = {
+      callerId: callerId,
+      recieverId: recieverId,
+      callerData: callerData,
+      type: type,
+    };
+
+    payload.data.callerData = callerData;
+
+    // Send the notification to the user's token
+    getMessaging().sendToDevice(userToken.token, payload, options);
+
+    res.json({ status: 200, message: 'Notification sent successfully', data: data });
+  } catch (error) {
+    res.json({ status: 500, message: 'Error: ' + error });
+  }
 };
