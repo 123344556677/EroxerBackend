@@ -9,6 +9,7 @@ import {createPost, getAllPosts, getPaginatedPosts, getPostsById, pollCounterInc
 import { changeRequestStatus, getAllAcceptedUsers, getAllSubscriptions, getRequestById, getSubscriptionByRecieverId, sendRequest, updateNotiStatus } from '../Controllers/requestController.js';
 import { CreatePaymentRequest, createPayment, getAllPayment, getAllPaymentRequest, getAllTip, sendLiveTip, sendTip, updatePaymentRequestStatus, updateTipNotiStatus } from '../Controllers/paymentController.js';
 import { createContact, getContactById } from '../Controllers/contactController.js';
+import { Notification } from '../Controllers/firebaseController.js';
 const router = express.Router();
 //auth
 router.post('/reg', register);
@@ -97,6 +98,9 @@ router.put('/updateTipNotiStatus', updateTipNotiStatus);
 //contact
 router.post('/createContact', createContact);
 router.post('/getContactById', getContactById);
+
+//notifications
+router.post('/sendNotificaion', Notification);
 
 
 

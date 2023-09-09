@@ -7,6 +7,7 @@ import axios from "axios";
 import twilio from "twilio";
 // import { Vonage } from '@vonage/server-sdk';
 import nodemailer from "nodemailer";
+import firebaseToken from "../Schemas/FirebaseTokens.js";
 
 // const accountSid = 'AC6b62d37081717e11a7fe91972f6156cf';
 // const authToken = '27ce37463b5d19cb81a087dd1ca45312';
@@ -73,7 +74,7 @@ export const register = async (req, res) => {
     });
   } catch (err) {
     console.log("error in registering data", err);
-    res.json({ message: "sever error", status: 500,error:err });
+    res.json({ message: "sever error", status: 500, error: err });
   }
 };
 
@@ -86,7 +87,14 @@ export const login = async (req, res) => {
         const pass = bcrypt.compareSync(password, data.hashPassword);
         console.log(pass);
         if (pass) {
-          res.json({ message: "Login Successfull",status: 200, data: data  });
+          res.json({ message: "Login Successfull", status: 200, data: data });
+          const userId = data?._id;
+          const token = req.body?.token;
+          const tokens = new firebaseToken({
+            userId,
+            token,
+          });
+          tokens.save();
         } else {
           res.json({ message: "incorrect password", status: 400 });
         }
@@ -95,7 +103,7 @@ export const login = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "server error", status: 500,error:err });
+    res.json({ message: "server error", status: 500, error: err });
     console.log("error in login", err);
   }
 };
@@ -124,7 +132,7 @@ export const googleLogin = async (req, res) => {
     });
   } catch (err) {
     console.log("email=====>", err);
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const googleReg = async (req, res) => {
@@ -142,7 +150,7 @@ export const googleReg = async (req, res) => {
     registeringUser.findOne({ email: email }).then((data) => {
       if (data) {
         console.log(req.body);
-        res.json({ message: "Email already exist", status: 200,data:data });
+        res.json({ message: "Email already exist", status: 200, data: data });
       } else {
         const firstName = given_name;
         const lastName = family_name;
@@ -163,35 +171,35 @@ export const googleReg = async (req, res) => {
     });
   } catch (err) {
     console.log("email=====>", err);
-    res.json({ message: "Server Error", status: 500 ,error:err});
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const FacebookReg = async (req, res) => {
   console.log(req.body, "body------->");
 
   try {
-     const facebookId=req.body.id;
-     const firstName=req.body.name
+    const facebookId = req.body.id;
+    const firstName = req.body.name;
     registeringUser.findOne({ facebookId: facebookId }).then((data) => {
       if (data) {
         console.log(req.body);
-        res.json({ message: "user registered", status: 200,data:data });
+        res.json({ message: "user registered", status: 200, data: data });
       } else {
-      const register = new registeringUser({
+        const register = new registeringUser({
           firstName,
-          facebookId
+          facebookId,
         });
-        register.save()
-        .then((data)=>{
-          res.status(200).json({ message: "user registered", data:data , status: 200 });
-        })
+        register.save().then((data) => {
+          res
+            .status(200)
+            .json({ message: "user registered", data: data, status: 200 });
+        });
         console.log(req.body);
-        
       }
     });
   } catch (err) {
     console.log("email=====>", err);
-    res.json({ message: "Server Error", status: 500 ,error:err});
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 
@@ -214,7 +222,7 @@ export const updateUser = async (req, res) => {
           },
           $push: { profileWishlist: req.body.profileWishlist },
         },
-        { new: true,upsert:true }
+        { new: true, upsert: true }
       )
       .then((data) => {
         if (data) {
@@ -223,14 +231,14 @@ export const updateUser = async (req, res) => {
             { $set: { userData: data } }
           );
 
-          res.json({ message: "user updated", status: 200,data:data });
+          res.json({ message: "user updated", status: 200, data: data });
           console.log(data, "============>new data");
         } else {
           res.json({ message: "user does not exist", status: 400 });
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
     console.log(err, "--------->error");
   }
 };
@@ -246,18 +254,18 @@ export const updateUserCover = async (req, res) => {
             backgroundImage: req.body.backgroundImage,
           },
         },
-        { new: true,upsert:true  }
+        { new: true, upsert: true }
       )
       .then((data) => {
         if (data) {
-          res.json({ message: "user updated", status: 200,data:data });
+          res.json({ message: "user updated", status: 200, data: data });
           console.log(data, "============>new data");
         } else {
           res.json({ message: "user does not exist", status: 400 });
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
     console.log(err, "--------->error");
   }
 };
@@ -273,18 +281,18 @@ export const updateUserProfile = async (req, res) => {
             profilePic: req.body.profilePic,
           },
         },
-        { new: true,upsert:true  }
+        { new: true, upsert: true }
       )
       .then((data) => {
         if (data) {
-          res.json({ message: "user updated", status: 200,data:data });
+          res.json({ message: "user updated", status: 200, data: data });
           console.log(data, "============>new data");
         } else {
           res.json({ message: "user does not exist", status: 400 });
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
     console.log(err, "--------->error");
   }
 };
@@ -301,7 +309,7 @@ export const getUsersById = async (req, res) => {
       }
     });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const updatePassword = async (req, res) => {
@@ -325,7 +333,7 @@ export const updatePassword = async (req, res) => {
         }
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 ,error:err});
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 // export const sendMobileCode = async (req,res) =>{
@@ -409,7 +417,7 @@ export const initiateVerification = async (req, res) => {
     //     }
     // });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const verifyCode = async (req, res) => {
@@ -442,7 +450,7 @@ export const verifyCode = async (req, res) => {
       }
     }
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const updateVerifyStatus = async (req, res) => {
@@ -463,16 +471,16 @@ export const updateVerifyStatus = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 
 export const getAllUsers = async (req, res) => {
   try {
     const data = await registeringUser.find({});
-    res.json({ message: "Success", status: 200, data:data });
+    res.json({ message: "Success", status: 200, data: data });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 ,error:err});
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const deleteAccount = async (req, res) => {
@@ -489,7 +497,7 @@ export const deleteAccount = async (req, res) => {
         res.json({ message: "Error deleting account", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const changeOnlineStatus = async (req, res) => {
@@ -510,7 +518,7 @@ export const changeOnlineStatus = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const updateliveStreamStatus = async (req, res) => {
@@ -531,7 +539,7 @@ export const updateliveStreamStatus = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const updateThumbPic = async (req, res) => {
@@ -552,7 +560,7 @@ export const updateThumbPic = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
 export const redirectToDashboard = async (req, res) => {
@@ -562,26 +570,27 @@ export const redirectToDashboard = async (req, res) => {
       userId: req.body.userId,
     };
     const options = {
-      expiresIn: "1h", 
+      expiresIn: "1h",
     };
     const secretKey = req.body.userId;
-   
+
     registeringUser
-      .findOne(
-        { _id: req.body.userId },
-      )
+      .findOne({ _id: req.body.userId })
       .then((data) => {
-        console.log(data,"--------->")
+        console.log(data, "--------->");
         const token = jwt.sign(payload, secretKey, options);
-        res.json({ message: "success", userId:req.body.userId, token:token, status: 200 });
+        res.json({
+          message: "success",
+          userId: req.body.userId,
+          token: token,
+          status: 200,
+        });
       })
       .catch((error) => {
         console.error("status not updated:", error);
         res.json({ message: "fail", status: 400 });
       });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
-
-
