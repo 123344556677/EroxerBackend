@@ -106,51 +106,12 @@ export const changeAllCallStatus = async (req, res) => {
         console.log(data);
         res.json({ message: "updated", status: 200 });
       });
-    // .then((data)=>{
-    // if(data){
-
-    //     res.json({ message: "request Generated"});
-    // }
-    // else{
-
-    //    res.json({ message: "request not Generated"});
-    // }
-    // })
+   
   } catch (err) {
     res.json({ message: "Server Error", status: 500,error:err });
   }
 };
-// export const getCallById = async (req, res) => {
-//   let requests;
-//   let sendingUser=[];
-//   console.log(req.body);
-//   try {
-//     await creatingCall
-//       .find({ $and: [{ roomId: req.body.userId }, { status: "pending" }] })
-//       .then((data) => {
-//         if (data) {
-//           requests=data;
-//           // res.json({ message: "request Generated"});
-//         } else {
-//           res.json({ message: "request not Generated" });
-//         }
-//       });
-//     //  console.log( requests,"after initial")
-//     requests?.map(async (datas, index) => {
-//       const newId = new mongoose.Types.ObjectId(datas?.senderId);
 
-//       await registeringUser.findOne({ _id: newId }).then((finalData) => {
-//         sendingUser.push(finalData);
-//         console.log(sendingUser, "SendingUser====>");
-//       });
-//       if (requests.length === sendingUser.length) {
-//         res.json(sendingUser);
-//       }
-//     });
-//   } catch (err) {
-//     res.json({ message: "Server Error" });
-//   }
-// };
 
 export const getCallById = async (req, res) => {
   try {
@@ -201,38 +162,7 @@ export const makeCall = async (req, res) => {
     res.json({ message: "Server Error", status: 500,error:err });
   }
 };
-// export const getLastMessage=async(req,res)=>{
-//    console.log(req.body,"LAST MESSAGE---->")
-//    let lastMessageArray=[]
 
-//     try {
-//         req.body?.map(async(data)=>{
-
-//      const recieverId=data.recieverId;
-//     const senderId=data.senderId
-
-//       await creatingChat.findOne({
-
-//   $or: [
-//     { senderId: senderId, recieverId: recieverId },
-//     { senderId:recieverId, recieverId:senderId }
-//   ]
-// }).sort({ _id: -1 }).exec()
-//  .then((data)=>{
-//     lastMessageArray.push(data)
-//     console.log(data,"------>last message")
-//  })
-//  if (req.body.length === lastMessageArray.length) {
-//         res.json(lastMessageArray);
-//         console.log(lastMessageArray, "=========>sending last message");
-//       }
-//  })
-
-//     }
-//     catch (err) {
-//         res.json({message:"Server Error"});
-//     }
-// }
 
 export const updateReadStatus = async (req, res) => {
   console.log(req.body, "last read status");
@@ -280,16 +210,6 @@ export const updatePicStatus = async (req, res) => {
         res.json({ message: "status not updated", status: 400 });
       });
   } catch (err) {
-    // .then((data)=>{
-    // if(data){
-
-    //     res.json({ message: "request Generated"});
-    // }
-    // else{
-
-    //    res.json({ message: "request not Generated"});
-    // }
-    // })
     res.json({ message: "Server Error", status: 500,error:err });
   }
 };

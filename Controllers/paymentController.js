@@ -119,9 +119,6 @@ export const getAllTip = async (req, res) => {
       });
 
     subscribeUser?.map(async (datas, index) => {
-      // console.log(datas.recieverId, "index");
-
-      // const newId = new mongoose.Types.ObjectId(datas?.senderId);
       await registeringUser
         .findOne({ _id: datas?.recieverId })
         .then((finalData) => {
@@ -132,15 +129,6 @@ export const getAllTip = async (req, res) => {
           console.log(finalData, "SendingUser====>");
         });
 
-      {
-        // if (datas?.recieverId === req.body.userId) {
-        //   const newId = new mongoose.Types.ObjectId(datas?.senderId);
-        //   await registeringUser.findOne({ _id: newId }).then((finalData) => {
-        //     sendingUser.push(finalData);
-        //     console.log(finalData, "coming in this SendingUser====>");
-        //   });
-        // }
-      }
       if (subscribeUser.length === sendingUser.length) {
         res.json({ message: "Success", status: 200, data:sendingUser });
         console.log(sendingUser, "=========>sending accpeted User");

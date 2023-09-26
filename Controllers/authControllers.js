@@ -9,15 +9,6 @@ import twilio from "twilio";
 import nodemailer from "nodemailer";
 import firebaseToken from "../Schemas/FirebaseTokens.js";
 
-// const accountSid = 'AC6b62d37081717e11a7fe91972f6156cf';
-// const authToken = '27ce37463b5d19cb81a087dd1ca45312';
-// const verifySid = "VA64052e1e4509ad257dbc95ac5f921eeb";
-// const client = twilio(accountSid, authToken);
-
-// const vonage = new Vonage({
-//   apiKey: '444b24c8',
-//   apiSecret: 'ElBUyII3QG05JOZJ',
-// });
 
 export const register = async (req, res) => {
   try {

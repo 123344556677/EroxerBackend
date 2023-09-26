@@ -41,11 +41,11 @@ export const getAllPosts = async (req, res) => {
 };
 export const getPaginatedPosts = async (req, res) => {
   console.log(req.body,"pge======>")
-  const pageNumber = req.body.page || 1; // Get the requested page number from the query parameter
-  const itemsPerPage = 10; // Number of items to show per page
+  const pageNumber = req.body.page || 1;
+  const itemsPerPage = 10; 
 
   try {
-    const totalCount = await creatingPost.countDocuments(); // Get the total number of documents
+    const totalCount = await creatingPost.countDocuments(); 
 
     const totalPages = Math.ceil(totalCount / itemsPerPage); // Calculate total number of pages
 
