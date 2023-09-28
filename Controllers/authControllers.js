@@ -73,7 +73,7 @@ export const login = async (req, res) => {
   console.log(req.body);
   try {
     const { email, password } = req.body;
-    registeringUser.findOne({ email: email }).then((data) => {
+    registeringUser.findOne({ email: email }).then(async(data) => {
       if (data) {
         const pass = bcrypt.compareSync(password, data.hashPassword);
         console.log(pass);
@@ -81,11 +81,21 @@ export const login = async (req, res) => {
           res.json({ message: "Login Successfull", status: 200, data: data });
           const userId = data?._id;
           const token = req.body?.token;
-          const tokens = new firebaseToken({
+         const existingToken = await firebaseToken.findOne({ userId: userId });
+
+        if (existingToken) {
+          // Update the existing token
+          existingToken.token = token;
+          await existingToken.save();
+        } else {
+          // Create and save a new token
+          const newToken = new firebaseToken({
             userId,
             token,
           });
-          tokens.save();
+          await newToken.save();
+        }
+          
         } else {
           res.json({ message: "incorrect password", status: 400 });
         }
