@@ -29,11 +29,22 @@ export const sendRequest = async (req, res) => {
         console.log(paymentIntents);
 
         if (paymentIntents.status === "succeeded") {
-          creatingRequest.create(req.body).then((datas) => {
+          creatingRequest.create(req.body).then(async (datas) => {
             if (datas) {
-              res.json({ message: "payment Successfull", status: 200 });
+              res.json({ message: "payment Successful", status: 200 });
+
+              // Increment the subscribers count by 1 for the user with the given recieverId
+              await registeringUser.findOneAndUpdate(
+                { _id: req.body.recieverId },
+                {
+                  $inc: {
+                    subscribers: 1,
+                  },
+                },
+                { new: true, upsert: true }
+              );
             } else {
-              res.json({ message: "payment not Successfull", status: 400 });
+              res.json({ message: "payment not Successful", status: 400 });
             }
           });
         }
@@ -44,9 +55,10 @@ export const sendRequest = async (req, res) => {
     //   name: req.body.name,
     // });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.json({ message: "Server Error", status: 500, error: err });
   }
 };
+
 
 export const getRequestById = async (req, res) => {
   let requests;

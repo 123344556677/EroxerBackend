@@ -205,8 +205,9 @@ export const FacebookReg = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
+   console.log(req.body, "--------->user");
   try {
-    console.log(req.body, "--------->user");
+   
     const id = req.body.userId;
     await registeringUser
       .findOneAndUpdate(

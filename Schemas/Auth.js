@@ -90,6 +90,11 @@ const reg = new mongoose.Schema({
         default:"false"
 
     },
+    subscribers:{
+        type:Number,
+        default:0
+
+    },
     key:{
         type:String,
         default:"user"
