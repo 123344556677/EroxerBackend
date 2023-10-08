@@ -90,10 +90,14 @@ export const sendTip = async (req, res) => {
           creatingTip.create(req.body).then((datas) => {
             if (datas) {
               res.json({ message: "payment Successfull", status: 200 });
-            } else {
-              res.json({ message: "payment not Successfull", status: 400,error:err });
             }
-          });
+
+          }).catch((err)=>{
+   
+              res.json({ message: "payment not Successfull",status: 500,error:err });
+            
+
+          })
         }
       });
     // pusher.trigger("request" + req.body.recieverId, "request", {
@@ -102,7 +106,7 @@ export const sendTip = async (req, res) => {
     //   name: req.body.name,
     // });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500 });
+    res.json({ message: "Server Error", status: 500,err:err });
   }
 };
 export const getAllTip = async (req, res) => {
