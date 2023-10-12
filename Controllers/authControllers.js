@@ -596,3 +596,4 @@ export const redirectToDashboard = async (req, res) => {
     res.json({ message: "Server Error", status: 500, error: err });
   }
 };
+

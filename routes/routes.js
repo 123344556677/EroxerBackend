@@ -36,7 +36,7 @@ router.post('/dashboardUrl', redirectToDashboard);
 
 //post
 router.post('/createPost', createPost);
-router.get('/getAllPost', getAllPosts);
+router.post('/getAllPost', getAllPosts);
 router.post('/getPaginatedPost', getPaginatedPosts);
 router.post('/getPostsByUserId', getPostsById);
 router.post('/pollCounterIncrement',pollCounterIncrement)

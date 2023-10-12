@@ -32,17 +32,36 @@ await creatingPost.create(req.body).then((data) => {
   }
 };
 export const getAllPosts = async (req, res) => {
+  console.log("page------->",req.body)
+  const page = parseInt(req.body.page) || 1; // Current page, default to 1
+  const perPage = 5; // Number of posts per page
+
   try {
-    const data = await creatingPost.find({}).sort({ timestamp: -1 });
-    res.json({ message: "Success", status: 200, data:data });
+    const totalPosts = await creatingPost.countDocuments(); // Get the total number of posts
+
+    const data = await creatingPost
+      .find({})
+      .sort({ timestamp: -1 })
+      .skip((page - 1) * perPage) // Skip records based on the current page
+      .limit(perPage); // Limit the number of records per page
+
+    res.json({
+      message: "Success",
+      status: 200,
+      data: data,
+      totalPosts: totalPosts,
+      currentPage: page,
+      totalPages: Math.ceil(totalPosts / perPage),
+    });
   } catch (err) {
-    res.json({ message: "Server Error", status: 500,error:err });
+    res.status(500).json({ message: "Server Error", status: 500, error: err });
   }
 };
+
 export const getPaginatedPosts = async (req, res) => {
   console.log(req.body,"pge======>")
   const pageNumber = req.body.page || 1;
-  const itemsPerPage = 10; 
+  const itemsPerPage = 5; 
 
   try {
     const totalCount = await creatingPost.countDocuments(); 

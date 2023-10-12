@@ -56,6 +56,7 @@ export const sendRequest = async (req, res) => {
     // });
   } catch (err) {
     res.json({ message: "Server Error", status: 500, error: err });
+    console.log(err)
   }
 };
 
